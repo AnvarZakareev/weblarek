@@ -136,7 +136,7 @@ const TPayment = “card” | “cash” | “”;
 
 <!-- - описать конструктор класса и принимаемые параметры (если они есть). Параметры конструктора нужно указать с типами принимаемых данных; -->
 Конструктор:
-`constructor(ProductArray: IProduct[])` - В конструктор передается массив всех товаров
+`constructor(ProductArray: IProduct[], ProductSelected: IProduct)` - В конструктор передается массив всех товаров и выбранный товар
 
 <!-- - описать поля класса. Для каждого нужно указать тип данных, который будет сохранён в поле класса. Затем описать поле класса — что оно хранит и за что отвечает; -->
 Поля класса:
@@ -145,11 +145,11 @@ const TPayment = “card” | “cash” | “”;
 
 <!-- - описать методы класса. Для каждого метода нужно указать входящие параметры и их тип (если они есть). Если метод возвращает какое-то значение, нужно описать его тип. -->
 Методы класса:
-`saveArray(ProductArray: IProduct[]): ProductArray: IProduct[]` - сохранение массива товаров полученного в параметрах метода;
-`getArray(ProductArray: IProduct[]): ProductArray: IProduct[]`    получение массива товаров из модели;
+`saveArray(ProductArray: IProduct[])` - сохранение массива товаров полученного в параметрах метода;
+`getArray(PgetProductById(id: string): IProduct | undefined)`    получение массива товаров из модели;
 `getProductById(ProductId: number): IProduct` - получение одного товара по его id;
-`saveProductSelected(IProduct): IProduct` - сохранение товара для подробного отображения;
-`getProductSelected(IProduct): IProduct` - получение товара для подробного отображения.
+`saveProductSelected(IProduct: IProduct): IProduct` - сохранение товара для подробного отображения;
+`getProductSelected(): IProduct` - получение товара для подробного отображения.
 
 
 #### Класс Basket
@@ -166,13 +166,13 @@ const TPayment = “card” | “cash” | “”;
 
 <!-- - описать методы класса. Для каждого метода нужно указать входящие параметры и их тип (если они есть). Если метод возвращает какое-то значение, нужно описать его тип. -->
 Методы класса:
-`getProductArrayInBasket(IProduct[]): IProduct[]` - получение массива товаров, которые находятся в корзине;
-`addProductInBasket(IProduct): IProduct[]` - добавление товара, который был получен в параметре, в массив корзины;
-`delProductInBasket(IProduct): IProduct[]` - удаление товара, полученного в параметре из массива корзины;
-`clearProductInBasket: IProduct[]` - очистка корзины;
-`summProductInBasket((IProduct[])): number` - получение стоимости всех товаров в корзине;
-`getLenghtProductInBasket(IProduct[]): number` - получение количества товаров в корзине;
-`checkProductInBasketById(IProduct): boolean` - проверка наличия товара в корзине по его id, полученного в параметр метода.
+`getProductArrayInBasket(): IProduct[]` - получение массива товаров, которые находятся в корзине;
+`addProductInBasket(Product: IProduct)` - добавление товара, который был получен в параметре, в массив корзины;
+`delProductInBasket(DelProduct: IProduct)` - удаление товара, полученного в параметре из массива корзины;
+`clearProductInBasket()` - очистка корзины;
+`summProductInBasket(): number` - получение стоимости всех товаров в корзине;
+`getLengthProductInBasket(): number` - получение количества товаров в корзине;
+`checkProductInBasketById(id: string): boolean` - проверка наличия товара в корзине по его id, полученного в параметр метода.
 
 
 #### Класс Buyer
