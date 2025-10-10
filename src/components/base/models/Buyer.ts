@@ -1,13 +1,5 @@
-// Покупатель:
-interface IBuyer {
-  payment: TPayment;
-  email: string;
-  phone: string;
-  address: string;
-} 
-
-// Способ оплаты:
-type TPayment = "card" | "cash" | "";	
+// import type { TPayment } from '../../../types/index.ts';
+import { IBuyer } from '../../../types/index.ts';
 
 export class Buyer {
     private Buyer: IBuyer | null;
