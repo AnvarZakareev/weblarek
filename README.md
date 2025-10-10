@@ -145,8 +145,8 @@ type TPayment = “card” | “cash” | “”;
 
 <!-- - описать методы класса. Для каждого метода нужно указать входящие параметры и их тип (если они есть). Если метод возвращает какое-то значение, нужно описать его тип. -->
 Методы класса:
-`saveArray(ProductArray: IProduct[])` - сохранение массива товаров полученного в параметрах метода;
-`getArray(PgetProductById(id: string): IProduct | undefined)`    получение массива товаров из модели;
+`setItems(ProductArray: IProduct[])` - сохранение массива товаров полученного в параметрах метода;
+`getItems(PgetProductById(id: string): IProduct | undefined)`    получение массива товаров из модели;
 `getProductById(ProductId: number): IProduct` - получение одного товара по его id;
 `saveProductSelected(IProduct: IProduct): IProduct` - сохранение товара для подробного отображения;
 `getProductSelected(): IProduct` - получение товара для подробного отображения.

@@ -2,26 +2,30 @@ import { IProduct } from '../../../types/index.ts';
 
 export class ProductCatalog {
     ProductArray: IProduct[];
-    ProductSelected: IProduct;
-    constructor(ProductArray: IProduct[], ProductSelected: IProduct)
+    ProductSelected: IProduct | null;
+    constructor(ProductArray: IProduct[] = [], ProductSelected?: IProduct)
     {
         this.ProductArray = ProductArray;
-        this.ProductSelected = ProductSelected
+        this.ProductSelected = ProductSelected ?? null;
     }
-    saveArray(ProductArray: IProduct[]) {
+    setItems(ProductArray: IProduct[]) : void {
         this.ProductArray = ProductArray;
     }
-    getArray(): IProduct[] {
+    getItems(): IProduct[] {
         return this.ProductArray;
     }
     getProductById(id: string): IProduct | undefined {
         return this.ProductArray.find(IProduct => IProduct.id == id);
     }
-    saveProductSelected(IProduct: IProduct): IProduct {
+    saveProductSelected(IProduct: IProduct | undefined): IProduct | null{
+        if (!IProduct) {
+            this.ProductSelected = null;
+            return null;
+        }
         this.ProductSelected = IProduct;
         return this.ProductSelected
     }
-    getProductSelected(): IProduct {
+    getProductSelected(): IProduct | null {
         return this.ProductSelected
     }
 }
