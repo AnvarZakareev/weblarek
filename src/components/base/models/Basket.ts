@@ -1,32 +1,36 @@
 import { IProduct } from '../../../types/index.ts';
 
 export class Basket {
-    ProductArrayInBasket: IProduct[];
-    constructor(ProductArrayInBasket: IProduct[]) 
+    private ProductArrayInBasket: IProduct[];
+    constructor(ProductArrayInBasket: IProduct[] = []) 
     {
         this.ProductArrayInBasket = ProductArrayInBasket;
     }
     getProductArrayInBasket(): IProduct[] {
         return this.ProductArrayInBasket;
     }
-    addProductInBasket(Product: IProduct) {
-        this.ProductArrayInBasket.push(Product);
+    addProductInBasket(Product: IProduct | undefined) {
+        if (Product !== undefined) {
+            this.ProductArrayInBasket.push(Product);
+        }
     }
-    delProductInBasket(DelProduct: IProduct) {
+    delProductInBasket(DelProduct: IProduct | undefined) {
+        if (DelProduct === undefined) return false;
         const index = this.ProductArrayInBasket.findIndex(product => product.id === DelProduct.id);
         if (index !== -1) {
             this.ProductArrayInBasket.splice(index, 1);
             return true;
         }
-        return false;
+        else return false
     }
-    clearProductInBasket() {
+    clearBasket() {
         this.ProductArrayInBasket = [];
     }
     summProductInBasket(): number {
+
         let sum = 0
         this.ProductArrayInBasket.forEach(element => {
-            if (element.price != null)
+            if (typeof element.price === 'number')
             {sum += element.price}
         }
         );
