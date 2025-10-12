@@ -6,12 +6,6 @@ export interface IApi {
     post<T extends object>(uri: string, data: object, method?: ApiPostMethods): Promise<T>;
 }
 
-// Ответ от сервера
-export interface IProductList {
-  total: number;
-  items: IProduct[]
-}
-
 // Товар:
 export interface IProduct {
   id: string;
@@ -32,3 +26,9 @@ export interface IBuyer {
   phone: string;
   address: string;
 } 
+
+// Ответ от сервера
+export interface IProductList {
+  total: number;
+  items: IProduct[]
+}
