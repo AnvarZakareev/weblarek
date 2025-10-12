@@ -3,12 +3,12 @@ import { IBuyer } from '../../../types/index.ts';
 
 export class Buyer {
     private Buyer: IBuyer | null;
-    // constructor(Buyer?: IBuyer) {
-        // this.Buyer = Buyer ?? null;
-    // } 
-    constructor (Buyer: IBuyer) {
-        this.Buyer = Buyer;
-    }
+    constructor(Buyer?: IBuyer) {
+        this.Buyer = Buyer ?? null;
+    } 
+    // constructor (Buyer: IBuyer) {
+    //     this.Buyer = Buyer;
+    // }
     saveBuyerData<key extends keyof IBuyer>(key: key, value: IBuyer[key]): void {
         if(!this.Buyer) {
             this.Buyer = {} as IBuyer;
