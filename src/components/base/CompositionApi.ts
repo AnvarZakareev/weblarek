@@ -4,8 +4,8 @@ import { IApi, IProductList, IProduct, IBuyer } from '../../types/index';
 
 export class CompositionAPI {
     Api: IApi;
-    constructor(apiInstance: IApi) {
-        this.Api = apiInstance;
+    constructor(Api: IApi) {
+        this.Api = Api;
     }
     async fetchProducts(): Promise<IProductList> {
         return await this.Api.get<IProductList>('/product/');
