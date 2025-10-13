@@ -2,14 +2,11 @@
 import { IBuyer } from '../../types/index.ts';
 
 export class Buyer {
-    private buyer: IBuyer | null;
+    private buyer: Partial<IBuyer> = {};
 
     constructor(buyer?: IBuyer) {
-        this.buyer = buyer ?? null;
+        this.buyer = buyer ?? {};
     } 
-    // constructor (buyer: IBuyer) {
-    //     this.buyer = buyer;
-    // }
 
     saveBuyerData<key extends keyof IBuyer>(key: key, value: IBuyer[key]): void {
         if(!this.buyer) {
@@ -26,7 +23,7 @@ export class Buyer {
     }
 
     clearBuyerData(): void {
-        this.buyer = null;
+        this.buyer = {};
     }
     
     validBuyerData(): { [K in keyof IBuyer]?: string } {
