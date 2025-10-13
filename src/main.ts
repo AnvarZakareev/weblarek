@@ -31,7 +31,7 @@ console.log('получение массива товаров, которые н
 basketModel.clearBasket()
 // добавление товара, который был получен в параметре, в массив корзины;
 basketModel.addProductInBasket(apiProducts.items[0])
-basketModel.addProductInBasket(apiProducts.items[11])
+basketModel.addProductInBasket(apiProducts.items[1])
 // удаление товара, полученного в параметре из массива корзины
 console.log(basketModel.delProductInBasket(test1))
 console.log('получение массива товаров, которые находятся в корзине', basketModel)

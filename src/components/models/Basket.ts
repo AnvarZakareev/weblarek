@@ -12,14 +12,11 @@ export class Basket {
         return this.productArrayInBasket;
     }
 
-    addProductInBasket(product: IProduct | undefined) {
-        if (product !== undefined) {
+    addProductInBasket(product: IProduct) {
             this.productArrayInBasket.push(product);
-        }
     }
 
-    delProductInBasket(delProduct: IProduct | undefined) {
-        if (delProduct === undefined) return false;
+    delProductInBasket(delProduct: IProduct) {
         const index = this.productArrayInBasket.findIndex(product => product.id === delProduct.id);
         if (index !== -1) {
             this.productArrayInBasket.splice(index, 1);
