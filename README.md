@@ -206,4 +206,4 @@ type TPayment = “card” | “cash” | “”;
 
 Методы класса:
 `async fetchProducts(): Promise<IProductList>` — получать с сервера объект с массивом товаров
-`async sendOrder(orderData: { products: IProduct[]; buyer: IBuyer }): Promise<any>` — отправлять на сервер данные о покупателе и выбранных товарах
+`async sendOrder(orderData: IProductList): Promise<{id: string, total: number}>` — отправлять на сервер данные о покупателе и выбранных товарах
