@@ -3,11 +3,14 @@ import { IProduct } from '../../types/index.ts';
 export class ProductCatalog {
     productArray: IProduct[];
     productSelected: IProduct | null;
-
-    constructor(productArray: IProduct[] = [], productSelected?: IProduct)
+// Обратите внимание.
+// Во всех классах вы не будете получать в конструктор готовые данные. 
+// Все экземпляры классов создаются до появления данных 
+// и заполняются данными в процессе работы приложения.
+    constructor(productArray: IProduct[] = [], productSelected: IProduct | null = null)
     {
         this.productArray = productArray;
-        this.productSelected = productSelected ?? null;
+        this.productSelected = productSelected;
     }
 
     setItems(productArray: IProduct[]) : void {

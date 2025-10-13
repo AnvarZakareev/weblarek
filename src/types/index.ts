@@ -27,7 +27,7 @@ export interface IBuyer {
   address: string;
 } 
 
-// Ответ от сервера
+// Объект, отправляемого на сервер при оформлении заказа
 export interface IProductList {
   total: number;
   items: IProduct[]

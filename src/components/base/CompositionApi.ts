@@ -13,7 +13,7 @@ export class CompositionAPI {
         return await this.api.get<IProductList>('/product/');
     }
     
-    async sendOrder(orderData: { products: IProduct[]; buyer: IBuyer }): Promise<any> {
-        return await this.api.post('/order/', orderData);
+    async sendOrder(orderData: IProductList): Promise<{id: string, total: number}> {
+        return await this.api.post<{id: string, total: number}>('/order/', orderData);
     }
 }

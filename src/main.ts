@@ -88,7 +88,7 @@ async function main() {
     console.log(`Наконец то получили массив товаров от сервера`, productsModel2)
     basketModel2.clearBasket()
     basketModel2.addProductInBasket(apiProducts.items[3]);
-    console.log(basketModel2)
+    console.log(`обновленная корзина`, basketModel2)
 
   } catch (error) {
     console.error('Ошибка при загрузке каталога:', error);
