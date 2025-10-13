@@ -6,7 +6,7 @@ import { Buyer } from './components/models/Buyer';
 import { TPayment } from './types/index'
 import { CompositionAPI } from './components/base/CompositionApi';
 import { Api } from './components/base/Api';
-// import { API_URL } from './utils/constants'
+import { API_URL } from './utils/constants'
 
 //#region test ProductCatalog
 
@@ -27,7 +27,7 @@ console.log(`получение товара для подробного ото�
 
 //#region test Basket
 
-const basketModel = new Basket(productsModel.getItems())
+const basketModel = new Basket()
 // получение массива товаров, которые находятся в корзине
 console.log('получение массива товаров, которые находятся в корзине', basketModel)
 // очистка корзины
@@ -77,8 +77,7 @@ console.log(`валидация данных`, bayerIncorrectModal.validBuyerDat
 //#region test CompositionAPI
 
 async function main() {
-  const apiInstance = new Api('https://larek-api.nomoreparties.co/api/weblarek');
-  
+  const apiInstance = new Api(API_URL);
   const catalog = new CompositionAPI(apiInstance);
   
   try {
@@ -86,8 +85,9 @@ async function main() {
     const basketModel2 = new Basket(productsModel2.getItems())
     // Получение каталога товаров
     const productList = await catalog.fetchProducts();
-    // Сохранение товаров в модель или переменную
+    // Сохранение товаров
     productsModel2.setItems(productList.items)
+
     console.log(`Наконец то получили массив товаров от сервера`, productsModel2)
     basketModel2.clearBasket()
     basketModel2.addProductInBasket(apiProducts.items[3]);
