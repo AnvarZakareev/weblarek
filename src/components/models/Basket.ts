@@ -26,14 +26,8 @@ export class Basket {
         this.productArrayInBasket = [];
     }
 
-    summProductInBasket(): number {
-        let sum = 0
-        this.productArrayInBasket.forEach(element => {
-            if (typeof element.price === 'number')
-            {sum += element.price}
-        }
-        );
-        return sum;
+    getTotalPrice(): number {
+        return this.productArrayInBasket.reduce((total, item) => total + (item.price || 0), 0);
     }
 
     getLengthProductInBasket(): number {

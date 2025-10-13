@@ -36,7 +36,7 @@ basketModel.addProductInBasket(apiProducts.items[1])
 // console.log(basketModel.delProductInBasket(test1))
 console.log('получение массива товаров, которые находятся в корзине', basketModel)
 // получение стоимости всех товаров в корзине
-console.log('получение стоимости всех товаров в корзине', basketModel.summProductInBasket())
+console.log('получение стоимости всех товаров в корзине', basketModel.getTotalPrice())
 // получение количества товаров в корзине
 console.log('получение количества товаров в корзине', basketModel.getLengthProductInBasket())
 // проверка наличия товара в корзине по его id, полученного в параметр метода

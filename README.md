@@ -170,7 +170,7 @@ type TPayment = “card” | “cash” | “”;
 `addProductInBasket(product: IProduct | undefined)` - добавление товара, который был получен в параметре, в массив корзины;
 `delProductInBasket(delProduct: IProduct | undefined)` - удаление товара, полученного в параметре из массива корзины;
 `clearBasket()` - очистка корзины;
-`summProductInBasket(): number` - получение стоимости всех товаров в корзине;
+`getTotalPrice(): number` - получение стоимости всех товаров в корзине;
 `getLengthProductInBasket(): number` - получение количества товаров в корзине;
 `checkProductInBasketById(id: string): boolean` - проверка наличия товара в корзине по его id, полученного в параметр метода.
 
