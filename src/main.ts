@@ -3,10 +3,10 @@ import { apiProducts } from './utils/data'
 import { ProductCatalog } from './components/models/ProductCatalog';
 import { Basket } from './components/models/Basket';
 import { Buyer } from './components/models/Buyer';
-import { TPayment, IProduct, } from './types/index'
+import { TPayment } from './types/index'
 import { CompositionAPI } from './components/base/CompositionApi';
 import { Api } from './components/base/Api';
-import { API_URL } from './utils/constants'
+// import { API_URL } from './utils/constants'
 
 //#region test ProductCatalog
 

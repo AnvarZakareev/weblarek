@@ -1,16 +1,16 @@
 import { IApi, IProductList, IProduct, IBuyer } from '../../types/index';
-// import { Api } from '../base/Api.ts';
+// import { api } from '../base/Api.ts';
 
 
 export class CompositionAPI {
-    Api: IApi;
-    constructor(Api: IApi) {
-        this.Api = Api;
+    api: IApi;
+    constructor(api: IApi) {
+        this.api = api;
     }
     async fetchProducts(): Promise<IProductList> {
-        return await this.Api.get<IProductList>('/product/');
+        return await this.api.get<IProductList>('/product/');
     }
     async sendOrder(orderData: { products: IProduct[]; buyer: IBuyer }): Promise<any> {
-        return await this.Api.post('/order/', orderData);
+        return await this.api.post('/order/', orderData);
     }
 }

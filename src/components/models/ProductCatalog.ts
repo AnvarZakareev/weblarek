@@ -1,31 +1,31 @@
 import { IProduct } from '../../types/index.ts';
 
 export class ProductCatalog {
-    ProductArray: IProduct[];
-    ProductSelected: IProduct | null;
-    constructor(ProductArray: IProduct[] = [], ProductSelected?: IProduct)
+    productArray: IProduct[];
+    productSelected: IProduct | null;
+    constructor(productArray: IProduct[] = [], productSelected?: IProduct)
     {
-        this.ProductArray = ProductArray;
-        this.ProductSelected = ProductSelected ?? null;
+        this.productArray = productArray;
+        this.productSelected = productSelected ?? null;
     }
-    setItems(ProductArray: IProduct[]) : void {
-        this.ProductArray = ProductArray;
+    setItems(productArray: IProduct[]) : void {
+        this.productArray = productArray;
     }
     getItems(): IProduct[] {
-        return this.ProductArray;
+        return this.productArray;
     }
     getProductById(id: string): IProduct | undefined {
-        return this.ProductArray.find(IProduct => IProduct.id == id);
+        return this.productArray.find(IProduct => IProduct.id == id);
     }
     saveProductSelected(IProduct: IProduct | undefined): IProduct | null{
         if (!IProduct) {
-            this.ProductSelected = null;
+            this.productSelected = null;
             return null;
         }
-        this.ProductSelected = IProduct;
-        return this.ProductSelected
+        this.productSelected = IProduct;
+        return this.productSelected
     }
     getProductSelected(): IProduct | null {
-        return this.ProductSelected
+        return this.productSelected
     }
 }

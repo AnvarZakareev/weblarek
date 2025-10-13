@@ -1,35 +1,35 @@
 import { IProduct } from '../../types/index.ts';
 
 export class Basket {
-    private ProductArrayInBasket: IProduct[];
-    constructor(ProductArrayInBasket: IProduct[] = []) 
+    private productArrayInBasket: IProduct[];
+    constructor(productArrayInBasket: IProduct[] = []) 
     {
-        this.ProductArrayInBasket = ProductArrayInBasket;
+        this.productArrayInBasket = productArrayInBasket;
     }
     getProductArrayInBasket(): IProduct[] {
-        return this.ProductArrayInBasket;
+        return this.productArrayInBasket;
     }
-    addProductInBasket(Product: IProduct | undefined) {
-        if (Product !== undefined) {
-            this.ProductArrayInBasket.push(Product);
+    addProductInBasket(product: IProduct | undefined) {
+        if (product !== undefined) {
+            this.productArrayInBasket.push(product);
         }
     }
-    delProductInBasket(DelProduct: IProduct | undefined) {
-        if (DelProduct === undefined) return false;
-        const index = this.ProductArrayInBasket.findIndex(product => product.id === DelProduct.id);
+    delProductInBasket(delProduct: IProduct | undefined) {
+        if (delProduct === undefined) return false;
+        const index = this.productArrayInBasket.findIndex(product => product.id === delProduct.id);
         if (index !== -1) {
-            this.ProductArrayInBasket.splice(index, 1);
+            this.productArrayInBasket.splice(index, 1);
             return true;
         }
         else return false
     }
     clearBasket() {
-        this.ProductArrayInBasket = [];
+        this.productArrayInBasket = [];
     }
     summProductInBasket(): number {
 
         let sum = 0
-        this.ProductArrayInBasket.forEach(element => {
+        this.productArrayInBasket.forEach(element => {
             if (typeof element.price === 'number')
             {sum += element.price}
         }
@@ -37,9 +37,9 @@ export class Basket {
         return sum;
     }
     getLengthProductInBasket(): number {
-        return this.ProductArrayInBasket.length;
+        return this.productArrayInBasket.length;
     }
     checkProductInBasketById(id: string): boolean {
-        return this.ProductArrayInBasket.some(product => product.id === id);
+        return this.productArrayInBasket.some(product => product.id === id);
     }
 }
