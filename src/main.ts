@@ -33,7 +33,7 @@ basketModel.clearBasket()
 basketModel.addProductInBasket(apiProducts.items[0])
 basketModel.addProductInBasket(apiProducts.items[1])
 // удаление товара, полученного в параметре из массива корзины
-console.log(basketModel.delProductInBasket(test1))
+// console.log(basketModel.delProductInBasket(test1))
 console.log('получение массива товаров, которые находятся в корзине', basketModel)
 // получение стоимости всех товаров в корзине
 console.log('получение стоимости всех товаров в корзине', basketModel.summProductInBasket())

@@ -17,12 +17,9 @@ export class Basket {
     }
 
     delProductInBasket(delProduct: IProduct) {
-        const index = this.productArrayInBasket.findIndex(product => product.id === delProduct.id);
-        if (index !== -1) {
-            this.productArrayInBasket.splice(index, 1);
-            return true;
-        }
-        else return false
+        const originalLength = this.productArrayInBasket.length;
+        this.productArrayInBasket = this.productArrayInBasket.filter(product => product.id !== delProduct.id);
+        return this.productArrayInBasket.length < originalLength;
     }
 
     clearBasket() {
@@ -30,7 +27,6 @@ export class Basket {
     }
 
     summProductInBasket(): number {
-
         let sum = 0
         this.productArrayInBasket.forEach(element => {
             if (typeof element.price === 'number')
