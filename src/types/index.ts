@@ -27,8 +27,13 @@ export interface IBuyer {
   address: string;
 } 
 
-// Объект, отправляемого на сервер при оформлении заказа
+// Объект, который сервер присылает на запрос товаров
 export interface IProductList {
   total: number;
   items: IProduct[]
+}
+
+export interface IBuyerExtended extends IBuyer {
+  items: string[];
+  total: number;
 }

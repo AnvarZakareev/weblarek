@@ -1,5 +1,4 @@
-import { IApi, IProductList, IProduct, IBuyer } from '../../types/index';
-// import { api } from '../base/Api.ts';
+import { IApi, IProductList, IBuyerExtended } from '../../types/index';
 
 
 export class CompositionAPI {
@@ -13,7 +12,7 @@ export class CompositionAPI {
         return await this.api.get<IProductList>('/product/');
     }
     
-    async sendOrder(orderData: IProductList): Promise<{id: string, total: number}> {
+    async sendOrder(orderData: IBuyerExtended): Promise<{id: string, total: number}> {
         return await this.api.post<{id: string, total: number}>('/order/', orderData);
     }
 }
