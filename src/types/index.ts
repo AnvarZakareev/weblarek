@@ -54,23 +54,23 @@ export interface IBuyerExtended extends IBuyer {
 
 
 
-events?.on('catalog:changed', () => {
-  const itemCards = ProductCatalog.getItems().map((item) => {
-    const card = new CardCatalog(cloneTemplate(cardCatalogTemplate), {
-      onclick: () => events.emit('card:select', item),
-    });
-    return card.render({ catalog: itemCards });
-  });
+// events?.on('catalog:changed', () => {
+//   const itemCards = ProductCatalog.getItems().map((item) => {
+//     const card = new CardCatalog(cloneTemplate(cardCatalogTemplate), {
+//       onclick: () => events.emit('card:select', item),
+//     });
+//     return card.render({ catalog: itemCards });
+//   });
 
-  gallery.render({ category: itemCards });
-})
+//   gallery.render({ category: itemCards });
+// })
 
-larekApi
-  .getProductList()
-  .then((data) => {
-    productsModel.setItems(data.items);
-  })
-  .catch((err) => console.log(err));
+// larekApi
+//   .getProductList()
+//   .then((data) => {
+//     productsModel.setItems(data.items);
+//   })
+//   .catch((err) => console.log(err));
 
 
   

@@ -195,18 +195,21 @@ type TPayment = “card” | “cash” | “”;
 ### Слой представления 
 Раздел классов отвечающий за внешний вид приложения
 
-#### Класс Headre
+#### Класс Header
 Шапка с кнопкой корзины и счётчиком
 
+Интерфейс:
+`IHeader {counter: number};` - передает в дженерик класса Component
+
 Поля класса:
-`protected counterElement: HTMLElement;` - 
-`protected basketButtom: HTMLButtonElement;` - 
+`protected counterElement: HTMLElement;` - находит счетчик товаров в корзине
+`protected basketButtom: HTMLButtonElement;` - находит значек товаров в корзине
 
 Конструктор:
-`protected events: IEvents, container: HTMLElement` - 
+`protected events: IEvents, container: HTMLElement` - принемает действие вызываемое при клике на корзину, и HTML элемент который передает в класс Component
 
 Методы класса:
-`set counter(value: number): number`
+`set counter(value: number): number` - Отображает изменения счетчика товаров в корзине
 
 #### Класс Gallary
 

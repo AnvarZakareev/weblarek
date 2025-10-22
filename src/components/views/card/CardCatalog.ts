@@ -27,6 +27,7 @@ export class CardCatalog extends Card<TCardCatalog> {
             '.card__category',
             this.container
         );
+        
         this.imageElement = ensureElement<HTMLImageElement>(
             '.card__image',
             this.container
