@@ -212,10 +212,35 @@ type TPayment = “card” | “cash” | “”;
 `set counter(value: number): number` - Отображает изменения счетчика товаров в корзине
 
 #### Класс Gallary
+Отвечает за показ всех доступных карточек
 
+Интерфейс:
+`IGallary {catalog: HTMLElement[]};` - Массив карточек с товарами
+
+Поля класса:
+`catalogElement: HTMLElement;` - находит 
+
+Конструктор:
+`protected events: IEvents, container: HTMLElement` - принемает действие вызываемое при клике на карточку с товаром, и HTML элемент который передает в класс Component
+
+Методы класса:
+`set counter(value: number): number` - Отображает изменения счетчика товаров в корзине
 
 #### Класс Modal
+Модальное окно. В него вставляется все всплывающие окна
 
+Интерфейс:
+`IModal {content: HTMLElement};` - передает в дженерик класса Component
+
+Поля класса:
+`protected modalContainer: HTMLElement;` - находит место для вставки 
+`protected modalButtom: HTMLButtonElement;` - находит значек закрыть в модальном окне
+
+Конструктор:
+`protected events: IEvents, container: HTMLElement` - принемает действие вызываемое при клике на кнопку закрыть, и HTML элемент который передает в класс Component
+
+Методы класса:
+`set counter(value: number): number` - Отображает изменения счетчика товаров в корзине
 
 #### Класс Basket
 <!-- - описать назначение и зону ответственности класса; -->
