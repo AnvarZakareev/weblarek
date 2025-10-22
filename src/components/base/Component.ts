@@ -14,7 +14,7 @@ export abstract class Component<T> {
             element.src = src;
             if (alt) {
                 element.alt = alt;
-            }
+            } 
         }
     }
 
