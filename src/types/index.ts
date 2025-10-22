@@ -1,6 +1,6 @@
-import { ProductCatalog } from "../components/models/ProductCatalog";
-import { CardCatalog } from "../components/views/card/CardCatalog";
-import { cloneTemplate } from "../utils/utils";
+// import { ProductCatalog } from "../components/models/ProductCatalog";
+// import { CardCatalog } from "../components/views/card/CardCatalog";
+// import { cloneTemplate } from "../utils/utils";
 
 export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
 
