@@ -21,8 +21,8 @@ export class Modal extends Component<IModal> {
         })
     }
 
-    set content(item: HTMLElement) {
-        this.modalContainer = item;
+    set content(value: HTMLElement) {
+        this.modalContainer = value;
     }
 }
 

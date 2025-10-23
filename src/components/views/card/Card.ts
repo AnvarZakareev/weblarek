@@ -1,10 +1,11 @@
 import { IProduct } from "../../../types";
 import { ensureElement } from "../../../utils/utils";
-import { Component } from "../../base/Component";
+// import { Component } from "../../base/Component";
+import { Gallery } from "../Gallary";
 
 export type ICard = Pick<IProduct,  'price' | 'title'>
 
-export class Card<T> extends Component<ICard> {
+export class Card<T> extends Gallery<ICard> {
     protected titleElement: HTMLElement;
     protected priceElement: HTMLElement;
 
@@ -22,7 +23,5 @@ export class Card<T> extends Component<ICard> {
     set price(value: number) {
         this.priceElement.textContent = String(value);
     }
-
-
 
 }
