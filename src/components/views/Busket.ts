@@ -1,11 +1,9 @@
 import { ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
 import { IEvents } from "../base/Events";
-import { Card } from "./card/Card";
-
 
 interface IBasket {
-    cards: Card;
+    cards: HTMLElement;
     sum: number;
 }
 
@@ -14,7 +12,7 @@ export class Basket extends Component<IBasket> {
     protected designButtom: HTMLButtonElement;
     protected list: HTMLElement;
 
-    constructor(protected events: IEvents, container: HTMLElement, list: HTMLElement) {
+    constructor(protected events: IEvents, container: HTMLElement) {
         super(container);
 
         this.basketPrice = ensureElement<HTMLElement>(
@@ -30,16 +28,18 @@ export class Basket extends Component<IBasket> {
             this.container
         );
         
-        this.designButtom
+        this.designButtom.addEventListener('click', () => {
+            this.events.emit('basket:close')
+        })
         
     }
 
     set sum(value: number) {
-
+        this.basketPrice.textContent = String(value)
     }
 
-    set cards(item: null) {
-        
+    set cards(value: HTMLElement) {
+        this.list = value
     }
 }
 
