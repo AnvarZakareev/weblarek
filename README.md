@@ -276,20 +276,21 @@ type TPayment = “card” | “cash” | “”;
 `set price(value: number)` - получение цены товара
 
 
-#### Класс CardCatalog
+##### Класс CardCatalog
 Карточки в каталоге товаров
 
 Поля класса:
-`cardImage: text` - хранит URL картинки
-`cardInButton: HTMLButtonElement` - хранит кнопку 
-`cardPrise: numbe` - хранит цену товара
+`imageElement: text` - хранит URL картинки
+`categoryElement` - хранит категорию товара
 
 Конструктор:
-`constructor(cardTitle: text, cardImage: text, cardInButton: HTMLButtonElement, cardPrise: numbe)` - хранит описание товара
+`constructor(container: HTMLElement, actions?: ICardActions)` - HTML элемент который передает в класс Component, действие при нажатие
 
 Методы класса:
+`set category` - отображает категорию товара
+`set image` - отображает картинку товара
 
-#### Класс CardPreview
+##### Класс CardPreview
 Хранит данные карточки с подробноым описанием и типом товара
 
 Поля класса:
@@ -305,7 +306,7 @@ type TPayment = “card” | “cash” | “”;
 Методы класса:
 `setData(): void` - получение всех данных товара;
 
-#### Класс CardBasket
+##### Класс CardBasket
 Хранит данные карточки с подробноым описанием и типом товара
 
 Поля класса:

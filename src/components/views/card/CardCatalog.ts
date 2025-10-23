@@ -1,6 +1,5 @@
 import { IProduct } from "../../../types";
 import { ensureElement } from "../../../utils/utils";
-import { Component } from "../../base/Component";
 import { Card } from "./Card";
 
 type ICardActions = {
@@ -53,4 +52,7 @@ export class CardCatalog extends Card<TCardCatalog> {
         this.setImage(this.imageElement, value);
         // this.setImage(this.imageElement, value, this.title);
     }
+    // private setImage(element: HTMLImageElement, src: string): void {
+    //     element.src = src;
+    // }
 }
