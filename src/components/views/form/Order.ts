@@ -1,4 +1,4 @@
-import { IBuyer, TPayment } from "../../../types"
+import { IBuyer } from "../../../types"
 import { ensureElement } from "../../../utils/utils";
 import { IEvents } from "../../base/Events";
 import { Forms } from "./Forms"
