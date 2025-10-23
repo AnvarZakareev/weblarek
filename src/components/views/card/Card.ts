@@ -6,7 +6,7 @@ interface ICArd {
     price: number;
 }
 
-export class Card extends Component<ICArd> {
+export class Card<T> extends Component<ICArd> {
     protected titleElement: HTMLElement;
     protected priceElement: HTMLElement;
 
