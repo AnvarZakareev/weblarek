@@ -2,19 +2,22 @@ import { ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
 
 interface IGallary {
-    catalog: HTMLUListElement
+    catalog: HTMLElement[]
 }
 
 export class Gallery<T> extends Component<IGallary> {
-    protected catalogElement;
+    protected catalogElement: HTMLElement;
 
     constructor(container: HTMLElement) {
         super(container);
 
-        this.catalogElement = ensureElement<HTMLUListElement>('.gallery', this.container);
+        this.catalogElement = ensureElement<HTMLElement>('.gallery', this.container);
     }
 
-    set catalog(value: HTMLUListElement) {
-        this.catalogElement = value
+    set catalog(value: HTMLElement[]) {
+        this.catalogElement.innerHTML = '';
+        for (const element of value) {
+            this.catalogElement.appendChild(element);
+        }
     }
 }
