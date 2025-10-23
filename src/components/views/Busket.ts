@@ -1,11 +1,11 @@
-import { ensureElement } from "../../../utils/utils";
-import { Component } from "../../base/Component";
-import { IEvents } from "../../base/Events";
-import { Card } from "./Card";
+import { ensureElement } from "../../utils/utils";
+import { Component } from "../base/Component";
+import { IEvents } from "../base/Events";
+import { Card } from "./card/Card";
 
 
 interface IBasket {
-    cards: Card[];
+    cards: Card;
     sum: number;
 }
 

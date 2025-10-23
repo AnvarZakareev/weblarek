@@ -1,4 +1,5 @@
 import { IProduct } from "../../../types";
+import { categoryMap } from "../../../utils/constants";
 import { ensureElement } from "../../../utils/utils";
 import { Card } from "./Card";
 
@@ -6,13 +7,13 @@ type ICardActions = {
   onClick?: (event: Event) => void;
 }
 
-const categoryMap = {
-    'софт-скил': 'card__category-hard',
-    'хард-скил': 'card__category-soft',
-    'кнопка': 'card__category-button',
-    'дополнительное': 'card__category-additional',
-    'другое': 'card__category-other',
-}
+// const categoryMap = {
+//     'софт-скил': 'card__category-hard',
+//     'хард-скил': 'card__category-soft',
+//     'кнопка': 'card__category-button',
+//     'дополнительное': 'card__category-additional',
+//     'другое': 'card__category-other',
+// }
 
 type CategoryKey = keyof typeof categoryMap;
 export type TCardCatalog = Pick<IProduct, 'image' | 'category'>;
