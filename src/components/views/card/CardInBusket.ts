@@ -3,7 +3,11 @@ import { ensureElement } from "../../../utils/utils";
 import { IEvents } from "../../base/Events";
 import { Card } from "./Card";
 
-export class CardInBusket extends Card<IProduct> {
+export type ICardInBusket = {
+    item: number
+}
+
+export class CardInBusket extends Card<ICardInBusket> {
     protected itemElement: HTMLElement;
     protected deleteElementButton: HTMLButtonElement;
 
@@ -18,6 +22,7 @@ export class CardInBusket extends Card<IProduct> {
         })
     }
 
-    // set deleteElementButton(value: void) {
-    // }
+    set item(value: number) {
+        this.itemElement.textContent = String(value)
+    }
 }
