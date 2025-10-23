@@ -294,17 +294,18 @@ type TPayment = “card” | “cash” | “”;
 Хранит данные карточки с подробноым описанием и типом товара
 
 Поля класса:
-`cardImage: text` - хранит URL картинки
-`cardInButton: HTMLButtonElement` - хранит кнопку 
-`cardPrise: numbe` - хранит цену товара
-`cardCategory: string` - хранит категорию товара
-`cardText: string` - хранит описание товара
+`protected imageElement: HTMLImageElement` - хранит URL картинки
+`protected categoryElement: HTMLElement` - хранит категорию товара 
+`protected textElement: HTMLElement` - хранит описание товара
+`protected addElementButton: HTMLButtonElement` - хранит кнопку "В корзину"
 
 Конструктор:
-`constructor(cardTitle: text, cardImage: text, cardInButton: HTMLButtonElement, cardPrise: numbe, cardCategory: string, cardText: string)` - хранит описание товара
+`protected events: IEvents, container: HTMLElement` - принемает действие вызываемое при клике на кнопку "В корзину", и HTML элемент который передает в класс Component
 
 Методы класса:
-`setData(): void` - получение всех данных товара;
+`set image(value: string)` - получение названия товара
+`set category(value: number)` - получение цены товара
+`set text(value: number)` - получение цены товара
 
 ##### Класс CardBasket
 Хранит данные карточки с подробноым описанием и типом товара
