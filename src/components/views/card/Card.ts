@@ -1,12 +1,10 @@
+import { IProduct } from "../../../types";
 import { ensureElement } from "../../../utils/utils";
 import { Component } from "../../base/Component";
 
-interface ICArd {
-    title: string;
-    price: number;
-}
+export type ICard = Pick<IProduct,  'price' | 'title'>
 
-export class Card<T> extends Component<ICArd> {
+export class Card<T> extends Component<ICard> {
     protected titleElement: HTMLElement;
     protected priceElement: HTMLElement;
 
