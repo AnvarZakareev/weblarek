@@ -245,6 +245,9 @@ type TPayment = “card” | “cash” | “”;
 #### Класс Basket
 Показывает все товары в корзине
 
+Интерфейс:
+`IBasket {cards: Card[]; sum: number};` - массив карточек и их общая стоимость
+
 Поля класса:
 `protected designButtom: HTMLButtonElement` - хранит кнопку оформить
 
@@ -258,16 +261,19 @@ type TPayment = “card” | “cash” | “”;
 #### Класс Card
 Родительский класс общий для трех классов с карточками товара
 
+Интерфейс:
+`ICArd {title: string; price: number};` - название товара и цена
+
 Поля класса:
-`cardTitle: string` - хранит описание товара.
-`cardPrice: number` - хранит цену товара.
+`titleElement: HTMLElement` - хранит название товара.
+`priceElement: HTMLElement` - хранит цену товара.
 
 Конструктор:
-`constructor(cardTitle: string, cardPrice: number)` - В конструктор передается данные товара общие дял дочерних классов
+`container: HTMLElement` - HTML элемент который передает в класс Component
 
 Методы класса:
-`saveData(cardTitle: string, cardPrice: number) ` - сохранение данных товара в модели
-`getData(): void` - получение всех данных товара;
+`set title(value: string)` - получение названия товара
+`set price(value: number)` - получение цены товара
 
 
 #### Класс CardCatalog

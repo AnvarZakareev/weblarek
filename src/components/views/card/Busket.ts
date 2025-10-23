@@ -1,10 +1,11 @@
 import { ensureElement } from "../../../utils/utils";
 import { Component } from "../../base/Component";
 import { IEvents } from "../../base/Events";
+import { Card } from "./Card";
 
 
 interface IBasket {
-    cards: null;
+    cards: Card[];
     sum: number;
 }
 
