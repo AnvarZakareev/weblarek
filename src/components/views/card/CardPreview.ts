@@ -3,12 +3,12 @@ import { ensureElement } from "../../../utils/utils";
 import { IEvents } from "../../base/Events";
 import { Card } from "./Card";
 
-export type TCardPreview = Pick<IProduct, 'image' | 'category' | 'title'>
+export type TCardPreview = Pick<IProduct, 'image' | 'category' | 'description'>
 
 export class CardPreview extends Card<TCardPreview> {
     protected imageElement: HTMLImageElement;
     protected categoryElement: HTMLElement;
-    protected textElement: HTMLElement;
+    protected descriptionElement: HTMLElement;
     protected addElementButton: HTMLButtonElement;
 
 
@@ -17,7 +17,7 @@ export class CardPreview extends Card<TCardPreview> {
 
         this.imageElement = ensureElement<HTMLImageElement>('.card__image', this.container);
         this.categoryElement = ensureElement<HTMLElement>('.card__category', this.container);
-        this.textElement = ensureElement<HTMLElement>('.card__text', this.container);
+        this.descriptionElement = ensureElement<HTMLElement>('.card__text', this.container);
         this.addElementButton = ensureElement<HTMLButtonElement>('.card__button', this.container);
 
         this.addElementButton.addEventListener('click', () => {
@@ -33,8 +33,8 @@ export class CardPreview extends Card<TCardPreview> {
         this.categoryElement.textContent = String(value);
     }    
     
-    set text(value: string) {
-        this.textElement.textContent = String(value);
+    set description(value: string) {
+        this.descriptionElement.textContent = String(value);
     }
 
 }

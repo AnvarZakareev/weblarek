@@ -19,6 +19,5 @@ export class CardInBusket extends Card<IProduct> {
     }
 
     // set deleteElementButton(value: void) {
-
     // }
 }
