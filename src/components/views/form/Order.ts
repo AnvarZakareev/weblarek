@@ -1,12 +1,12 @@
 import { IBuyer, TPayment } from "../../../types"
 import { ensureElement } from "../../../utils/utils";
 import { IEvents } from "../../base/Events";
-import { Form } from "./Form"
+import { Forms } from "./Forms"
 
 
 export type TOrder = Pick<IBuyer, 'payment' | 'address'>
 
-export class Order extends Form<TOrder> {
+export class Order extends Forms<TOrder> {
     protected buttonPayment: HTMLButtonElement;
     protected adresBuyer: HTMLInputElement;
     protected buttonNext: HTMLButtonElement;
@@ -19,7 +19,7 @@ export class Order extends Form<TOrder> {
         this.buttonNext = ensureElement<HTMLButtonElement>('.basket__item-index', this.container);
         
         this.buttonNext.addEventListener('click', () => {
-            this.events.emit('adres:send')
+            this.events.emit('form:send')
         })
     }
 
@@ -28,7 +28,7 @@ export class Order extends Form<TOrder> {
     // }
 
 
-    set orderAdress(value: string) {
+    set address(value: string) {
         this.adresBuyer.textContent = value;
     }
 
