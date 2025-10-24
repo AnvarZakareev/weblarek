@@ -1,6 +1,24 @@
 // Хорошая практика даже простые типы выносить в алиасы
 // Зато когда захотите поменять это достаточно сделать в одном месте
-type EventName = string | RegExp;
+
+type EventType =
+    | "catalog:changed"
+    | "selectedCard:changed"
+    | "card:select"
+    | "basket:open"
+    | "basket:add"
+    | "basket:remove"
+    | "basket:changed"
+    | "form:changed"
+    | "buyer:changed"
+    | "order:start"
+    | "order:next"
+    | "order:post"
+    | "order:complete"
+    | "modalState:changed"
+    | "modal:close";
+
+type EventName = EventType | '*' | RegExp;
 type Subscriber = Function;
 type EmitterEvent = {
     eventName: string,
@@ -73,7 +91,7 @@ export class EventEmitter implements IEvents {
      * Сбросить все обработчики
      */
     offAll() {
-        this._events = new Map<string, Set<Subscriber>>();
+        this._events = new Map<EventName, Set<Subscriber>>();
     }
 
     /**
