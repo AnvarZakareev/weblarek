@@ -5,7 +5,7 @@ import { Gallery } from "../Gallary";
 
 export type ICard = Pick<IProduct,  'price' | 'title'>
 
-export class Card<T> extends Gallery<ICard> {
+export class Card<T> extends Gallery<ICard & T> {
     protected titleElement: HTMLElement;
     protected priceElement: HTMLElement;
 

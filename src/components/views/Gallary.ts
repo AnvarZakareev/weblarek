@@ -5,7 +5,7 @@ interface IGallary {
     catalog: HTMLElement[]
 }
 
-export class Gallery<T> extends Component<IGallary> {
+export class Gallery<T> extends Component<IGallary & T> {
     // protected catalogElement: HTMLElement;
 
     constructor(container: HTMLElement) {
