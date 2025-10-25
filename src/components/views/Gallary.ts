@@ -14,7 +14,7 @@ export class Gallery<T> extends Component<IGallary & T> {
         // this.catalogElement = ensureElement<HTMLElement>('.gallery', this.container);
     }
 
-    protected set catalog(value: HTMLElement[]) {
+    set catalog(value: HTMLElement[]) {
         this.container.replaceChildren(...value);
     }
 }

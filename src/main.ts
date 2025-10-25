@@ -7,6 +7,7 @@ import { TPayment } from './types/index'
 import { CompositionAPI } from './components/base/CompositionApi';
 import { Api } from './components/base/Api';
 import { API_URL_WORKS } from './utils/constants'
+import { Gallery } from './components/views/Gallary';
 
 //#region test ProductCatalog
 
@@ -119,4 +120,39 @@ import { API_URL_WORKS } from './utils/constants'
 // }
 
 // sendOrderExample();
+//#endregion
+
+
+//#region test Gallary
+
+// Получите элемент контейнера
+const galleryContainer = document.getElementById('gallery');
+
+console.log(galleryContainer)
+
+if (galleryContainer) {
+  // Создайте экземпляр галереи
+  const gallery = new Gallery(galleryContainer);
+
+  // Создайте несколько элементов для демонстрации (например, простые div)
+  const item1 = document.createElement('div');
+  item1.textContent = 'Элемент 1';
+
+  const item2 = document.createElement('div');
+  item2.textContent = 'Элемент 2';
+
+const x = [item1, item2];
+  // Добавьте элементы в галерею
+  gallery.catalog = x;
+
+  // Или, если планируете сделать публичным сеттер
+  // gallery.catalog = [item1, item2];
+} else {
+  console.error('Контейнер для галереи не найден');
+}
+
+// #endregion
+
+//#region test Card
+
 //#endregion
