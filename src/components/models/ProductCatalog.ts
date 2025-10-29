@@ -1,6 +1,6 @@
 import { IProduct } from '../../types/index.ts';
 
-export class ProductCatalog {
+export class ProductCatalogModel {
     productArray: IProduct[];
     productSelected: IProduct | null;
 // Обратите внимание.

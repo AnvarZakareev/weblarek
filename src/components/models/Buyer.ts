@@ -1,7 +1,7 @@
 // import type { TPayment } from '../../../types/index.ts';
 import { IBuyer } from '../../types/index.ts';
 
-export class Buyer {
+export class BuyerModel {
     private buyer: Partial<IBuyer> = {};
 
     constructor(buyer?: IBuyer) {

@@ -1,19 +1,21 @@
 import './scss/styles.scss';
 import { apiProducts } from './utils/data'
-import { ProductCatalog } from './components/models/ProductCatalog';
-import { Basket } from './components/models/Basket';
-import { Buyer } from './components/models/Buyer';
+import { ProductCatalogModel } from './components/models/ProductCatalog';
+import { BasketModel } from './components/models/Basket';
+import { BuyerModel } from './components/models/Buyer';
 import { TPayment } from './types/index'
 import { CompositionAPI } from './components/base/CompositionApi';
 import { Api } from './components/base/Api';
 import { API_URL_WORKS } from './utils/constants'
 import { Gallery } from './components/views/Gallary';
+import { Card } from './components/views/card/Card';
+import { CardCatalog } from './components/views/card/CardCatalog';
 
 //#region test ProductCatalog
 
-// const productsModel = new ProductCatalog();
+const productsModel = new ProductCatalogModel();
 // // сохранение массива товаров полученного в параметрах метода
-// productsModel.setItems(apiProducts.items);
+productsModel.setItems(apiProducts.items);
 // console.log(`Массив товаров из каталога: `, productsModel.getItems());
 // let test1 = productsModel.getProductById("c101ab44-ed99-4a54-990d-47aa2bb4e7d9");
 // console.log(`получение одного товара по его id`, productsModel.getProductById("854cef69-976d-4c2a-a18c-2aa45046c390"))
@@ -125,28 +127,27 @@ import { Gallery } from './components/views/Gallary';
 
 //#region test Gallary
 
-// Получите элемент контейнера
 const galleryContainer = document.getElementById('gallery');
 
-console.log(galleryContainer)
-
 if (galleryContainer) {
-  // Создайте экземпляр галереи
-  const gallery = new Gallery(galleryContainer);
+    
+    // Создайте экземпляр галереи
+    
+    const gallery = new Gallery(galleryContainer);
+    
+    // Создайте несколько элементов для демонстрации (например, простые div)
+    const item1 = document.createElement('div');
+    item1.textContent = 'Элемент 1';
+    
+    const item2 = document.createElement('div');
+    item2.textContent = 'Элемент 2';
+    
+    const x = [item1, item2];
+    // Добавьте элементы в галерею
+    // gallery.catalog = x;
 
-  // Создайте несколько элементов для демонстрации (например, простые div)
-  const item1 = document.createElement('div');
-  item1.textContent = 'Элемент 1';
-
-  const item2 = document.createElement('div');
-  item2.textContent = 'Элемент 2';
-
-const x = [item1, item2];
-  // Добавьте элементы в галерею
-  gallery.catalog = x;
-
-  // Или, если планируете сделать публичным сеттер
-  // gallery.catalog = [item1, item2];
+    // const card = new Card(galleryContainer)
+    // console.log(card)
 } else {
   console.error('Контейнер для галереи не найден');
 }
@@ -155,4 +156,65 @@ const x = [item1, item2];
 
 //#region test Card
 
-//#endregion
+const trmplate = document.getElementById('card-catalog') as HTMLTemplateElement;
+
+// console.log(trmplate)
+
+const clone = trmplate.content.cloneNode(true) as DocumentFragment;
+
+const cardButton = clone.querySelector('.gallery__item') as HTMLElement;
+
+const card1 = new Card(cardButton, );
+
+const card11 = productsModel.getProductById("854cef69-976d-4c2a-a18c-2aa45046c390");
+
+console.log(card11?.price)
+
+card1.price = card11?.price as number;
+card1.title = card11?.title as string;
+
+// const card21 = productsModel.getProductById("854cef69-976d-4c2a-a18c-2aa45046c390");
+
+// card1.set
+
+console.log(card1.price)
+
+// if (galleryContainer) {
+//     const gallery = new Gallery(galleryContainer);
+// gallery.catalog = [card1, card]
+// }
+// console.log(card)
+// console.log(card1)
+
+// if (cardContainer) {
+
+//   const card = new Card(cardContainer);
+
+
+//   card.title = '1'
+
+//   // console.log(gallery)
+  
+//   // const tampltemplateCard = document.getElementById('card-catalog')
+
+//   if(cardContainer) {
+//   productsModel.getItems().forEach(element => {
+//   console.log(element)
+//   const card = new Card(cardContainer)
+//     console.log(card)
+//     card.title = 'cs'
+//     card.price = 1;
+//     // card.category = element.category;
+//     // card.image = element.image;
+//     // card.catalog = ;
+
+// //       // productCards.push(card)
+//   });
+// //   // console.log(productCards)
+
+//   } else {
+//   console.error('Контейнер для галереи не найден');
+
+// }
+
+// // //#endregion

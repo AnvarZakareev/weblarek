@@ -1,6 +1,6 @@
 import { IProduct } from '../../types/index.ts';
 
-export class Basket {
+export class BasketModel {
     private productArrayInBasket: IProduct[];
 
     constructor(productArrayInBasket: IProduct[] = []) 
