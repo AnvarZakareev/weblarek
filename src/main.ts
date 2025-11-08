@@ -131,7 +131,6 @@ async function main() {
 // if (galleryContainer) {
     
 //     // Создайте экземпляр галереи
-    
 //     const gallery = new Gallery(galleryContainer);
     
 //     const item1 = document.createElement('div');
@@ -158,16 +157,8 @@ const template = document.getElementById('card-catalog') as HTMLTemplateElement;
 const cardClone = template.content.cloneNode(true) as DocumentFragment;
 const cardElement = cardClone.firstElementChild as HTMLElement;
 
-const element = productsModel.getProductById("854cef69-976d-4c2a-a18c-2aa45046c390");
-const arr = productsModel.getItems()[1]
-
 // console.log(element);
 // console.log(arr);
-
-
-const cardClone2 = template.content.cloneNode(true) as DocumentFragment;
-const cardElement2 = cardClone2.firstElementChild as HTMLElement;
-
 
 const card = new CardCatalog(cardElement, {
   onClick: () => {
@@ -180,21 +171,29 @@ card.image = '#';
 card.title = '+1 час в сутках';
 card.price = 1750;
 
-const newCard = new CardCatalog(cardElement2, {
+const gallery = document.getElementById('gallery') as HTMLElement;
+
+gallery.appendChild(card.render());
+
+const arr = productsModel.productArray;
+
+arr.forEach(card => {
+  const newCardClone = template.content.cloneNode(true) as DocumentFragment;
+  const newcardElement = newCardClone.firstElementChild as HTMLElement;
+
+  const newCard = new CardCatalog(newcardElement, {
   onClick: () => {
     console.log('catalog:changed');
   }
 });
 
-newCard.category = arr.category;
-newCard.image = arr.image; 
-newCard.title = arr.title;
-newCard.price = arr.price as number;
+newCard.category = card.category;
+newCard.image = card.image; 
+newCard.title = card.title;
+newCard.price = card.price as number;
 
-const gallery = document.getElementById('gallery') as HTMLElement;
-
-gallery.appendChild(card.render());
 gallery.appendChild(newCard.render());
+});
 
 // #endregion
 
