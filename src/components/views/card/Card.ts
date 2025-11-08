@@ -23,5 +23,4 @@ export class Card<T> extends Gallery<ICard & T> {
     set price(value: number) {
         this.priceElement.textContent = String(value);
     }
-
 }

@@ -76,22 +76,22 @@ productsModel.setItems(apiProducts.items);
 
 //#region test CompositionAPI
 
-// async function main() {
-//   const apiInstance = new Api(API_URL_WORKS);
-//   console.log(apiInstance)
-//   const catalog = new CompositionAPI(apiInstance);
+async function main() {
+  const apiInstance = new Api(API_URL_WORKS);
+  // console.log(apiInstance)
+  const catalog = new CompositionAPI(apiInstance);
   
-//   try {
-//     // Получение каталога товаров
-//     const productList = await catalog.fetchProducts();
+  try {
+    // Получение каталога товаров
+    const productList = await catalog.fetchProducts();
 //     // Сохранение товаров
-//     productsModel.setItems(productList.items)
-//     console.log(`Наконец то получили массив товаров от сервера`, productsModel)
+    productsModel.setItems(productList.items)
+    console.log(`Наконец то получили массив товаров от сервера`, productsModel)
     
-//   } catch (error) {
+  } catch (error) {
 //     console.error('Ошибка при загрузке каталога:', error);
-//   }
-// }
+  }
+}
 
 // main();
 
@@ -124,97 +124,78 @@ productsModel.setItems(apiProducts.items);
 // sendOrderExample();
 //#endregion
 
+// //#region test Gallary
 
-//#region test Gallary
+// const galleryContainer = document.getElementById('gallery');
 
-const galleryContainer = document.getElementById('gallery');
+// if (galleryContainer) {
+    
+//     // Создайте экземпляр галереи
+    
+//     const gallery = new Gallery(galleryContainer);
+    
+//     const item1 = document.createElement('div');
+//     item1.textContent = 'Элемент 1';
+    
+//     const item2 = document.createElement('div');
+//     item2.textContent = 'Элемент 2';
+    
+//     const x = [item1, item2];
+//     gallery.catalog = x;
 
-if (galleryContainer) {
-    
-    // Создайте экземпляр галереи
-    
-    const gallery = new Gallery(galleryContainer);
-    
-    // Создайте несколько элементов для демонстрации (например, простые div)
-    const item1 = document.createElement('div');
-    item1.textContent = 'Элемент 1';
-    
-    const item2 = document.createElement('div');
-    item2.textContent = 'Элемент 2';
-    
-    const x = [item1, item2];
-    // Добавьте элементы в галерею
-    // gallery.catalog = x;
+//     // const card = new Card(galleryContainer)
+//     // console.log(card)
+// } else {
+//   console.error('Контейнер для галереи не найден');
+// }
 
-    // const card = new Card(galleryContainer)
-    // console.log(card)
-} else {
-  console.error('Контейнер для галереи не найден');
-}
+// // #endregion
+
+//#region test CardCatalog
+
+const template = document.getElementById('card-catalog') as HTMLTemplateElement;
+
+const cardClone = template.content.cloneNode(true) as DocumentFragment;
+const cardElement = cardClone.firstElementChild as HTMLElement;
+
+const element = productsModel.getProductById("854cef69-976d-4c2a-a18c-2aa45046c390");
+const arr = productsModel.getItems()[1]
+
+// console.log(element);
+// console.log(arr);
+
+
+const cardClone2 = template.content.cloneNode(true) as DocumentFragment;
+const cardElement2 = cardClone2.firstElementChild as HTMLElement;
+
+
+const card = new CardCatalog(cardElement, {
+  onClick: () => {
+    console.log('catalog:changed');
+  }
+});
+
+card.category = 'софт-скил'; 
+card.image = '#'; 
+card.title = '+1 час в сутках';
+card.price = 1750;
+
+const newCard = new CardCatalog(cardElement2, {
+  onClick: () => {
+    console.log('catalog:changed');
+  }
+});
+
+newCard.category = arr.category;
+newCard.image = arr.image; 
+newCard.title = arr.title;
+newCard.price = arr.price as number;
+
+const gallery = document.getElementById('gallery') as HTMLElement;
+
+gallery.appendChild(card.render());
+gallery.appendChild(newCard.render());
 
 // #endregion
 
 //#region test Card
-
-const trmplate = document.getElementById('card-catalog') as HTMLTemplateElement;
-
-// console.log(trmplate)
-
-const clone = trmplate.content.cloneNode(true) as DocumentFragment;
-
-const cardButton = clone.querySelector('.gallery__item') as HTMLElement;
-
-const card1 = new Card(cardButton, );
-
-const card11 = productsModel.getProductById("854cef69-976d-4c2a-a18c-2aa45046c390");
-
-console.log(card11?.price)
-
-card1.price = card11?.price as number;
-card1.title = card11?.title as string;
-
-// const card21 = productsModel.getProductById("854cef69-976d-4c2a-a18c-2aa45046c390");
-
-// card1.set
-
-console.log(card1.price)
-
-// if (galleryContainer) {
-//     const gallery = new Gallery(galleryContainer);
-// gallery.catalog = [card1, card]
-// }
-// console.log(card)
-// console.log(card1)
-
-// if (cardContainer) {
-
-//   const card = new Card(cardContainer);
-
-
-//   card.title = '1'
-
-//   // console.log(gallery)
-  
-//   // const tampltemplateCard = document.getElementById('card-catalog')
-
-//   if(cardContainer) {
-//   productsModel.getItems().forEach(element => {
-//   console.log(element)
-//   const card = new Card(cardContainer)
-//     console.log(card)
-//     card.title = 'cs'
-//     card.price = 1;
-//     // card.category = element.category;
-//     // card.image = element.image;
-//     // card.catalog = ;
-
-// //       // productCards.push(card)
-//   });
-// //   // console.log(productCards)
-
-//   } else {
-//   console.error('Контейнер для галереи не найден');
-
-// }
-
-// // //#endregion
