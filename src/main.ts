@@ -10,6 +10,7 @@ import { API_URL_WORKS } from './utils/constants'
 import { Gallery } from './components/views/Gallary';
 import { Card } from './components/views/card/Card';
 import { CardCatalog } from './components/views/card/CardCatalog';
+import { EventEmitter } from './components/base/Events'
 
 //#region test ProductCatalog
 
@@ -124,37 +125,11 @@ async function main() {
 // sendOrderExample();
 //#endregion
 
-// //#region test Gallary
-
-// const galleryContainer = document.getElementById('gallery');
-
-// if (galleryContainer) {
-    
-//     // Создайте экземпляр галереи
-//     const gallery = new Gallery(galleryContainer);
-    
-//     const item1 = document.createElement('div');
-//     item1.textContent = 'Элемент 1';
-    
-//     const item2 = document.createElement('div');
-//     item2.textContent = 'Элемент 2';
-    
-//     const x = [item1, item2];
-//     gallery.catalog = x;
-
-//     // const card = new Card(galleryContainer)
-//     // console.log(card)
-// } else {
-//   console.error('Контейнер для галереи не найден');
-// }
-
-// // #endregion
-
 //#region test CardCatalog
 
-const template = document.getElementById('card-catalog') as HTMLTemplateElement;
+const catalogTemplate = document.getElementById('card-catalog') as HTMLTemplateElement;
 
-const cardClone = template.content.cloneNode(true) as DocumentFragment;
+const cardClone = catalogTemplate.content.cloneNode(true) as DocumentFragment;
 const cardElement = cardClone.firstElementChild as HTMLElement;
 
 // console.log(element);
@@ -162,12 +137,12 @@ const cardElement = cardClone.firstElementChild as HTMLElement;
 
 const card = new CardCatalog(cardElement, {
   onClick: () => {
-    console.log('catalog:changed');
+    console.log('???');
   }
 });
 
 card.category = 'софт-скил'; 
-card.image = '#'; 
+card.image = "src/images/logo.svg"; 
 card.title = '+1 час в сутках';
 card.price = 1750;
 
@@ -175,20 +150,33 @@ const gallery = document.getElementById('gallery') as HTMLElement;
 
 gallery.appendChild(card.render());
 
+
+
+const coll = new EventEmitter();
+
+coll.on('selectedCard:changed', (data) =>{
+  console.log(`cardSelect`, data)
+});
+
+
+
 const arr = productsModel.productArray;
 
 arr.forEach(card => {
-  const newCardClone = template.content.cloneNode(true) as DocumentFragment;
+  const newCardClone = catalogTemplate.content.cloneNode(true) as DocumentFragment;
   const newcardElement = newCardClone.firstElementChild as HTMLElement;
 
   const newCard = new CardCatalog(newcardElement, {
   onClick: () => {
-    console.log('catalog:changed');
+    // console.log('catalog:changed');
+    coll.emit('selectedCard:changed', {newCard})
   }
 });
 
+const pic = 'src/images/logo.svg'
+
 newCard.category = card.category;
-newCard.image = card.image; 
+// newCard.image = pic
 newCard.title = card.title;
 newCard.price = card.price as number;
 
@@ -197,4 +185,12 @@ gallery.appendChild(newCard.render());
 
 // #endregion
 
+// //#region test CardPreview
+
+
+
+// // #endregion
+
 //#region test Card
+
+// import {logo} from './images/logo.svg'

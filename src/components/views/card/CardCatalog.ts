@@ -32,7 +32,7 @@ export class CardCatalog extends Card<TCardCatalog> {
         }
     }
 
-    set category(value:string) {
+    set category(value: string) {
         this.categoryElement.textContent = value;
 
         for (const key in categoryMap) {
@@ -44,10 +44,7 @@ export class CardCatalog extends Card<TCardCatalog> {
     }
 
     set image(value: string) {
-        this.setImage(this.imageElement, value);
-        // this.setImage(this.imageElement, value, this.title);
+        this.imageElement.src = value;
     }
-    // private setImage(element: HTMLImageElement, src: string): void {
-    //     element.src = src;
-    // }
+
 }
