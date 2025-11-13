@@ -12,7 +12,7 @@ export class CardPreview extends Card<TCardPreview> {
     protected addElementButton: HTMLButtonElement;
 
 
-    constructor(protected events: IEvents, container: HTMLElement) {
+    constructor(container: HTMLElement, protected events: IEvents) {
         super(container);
 
         this.imageElement = ensureElement<HTMLImageElement>('.card__image', this.container);
@@ -21,7 +21,7 @@ export class CardPreview extends Card<TCardPreview> {
         this.addElementButton = ensureElement<HTMLButtonElement>('.card__button', this.container);
 
         this.addElementButton.addEventListener('click', () => {
-            this.events.emit('element:add')
+            this.events.emit('card:select')
         })
     }
 

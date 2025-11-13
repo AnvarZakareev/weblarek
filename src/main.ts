@@ -11,6 +11,7 @@ import { Gallery } from './components/views/Gallary';
 import { Card } from './components/views/card/Card';
 import { CardCatalog } from './components/views/card/CardCatalog';
 import { EventEmitter } from './components/base/Events'
+import { CardPreview } from './components/views/card/CardPreview';
 
 //#region test ProductCatalog
 
@@ -150,32 +151,30 @@ const gallery = document.getElementById('gallery') as HTMLElement;
 
 gallery.appendChild(card.render());
 
-
-
 const coll = new EventEmitter();
 
-coll.on('selectedCard:changed', (data) =>{
-  console.log(`cardSelect`, data)
+coll.on('catalog:changed', (data) =>{
+
+  // console.log(`cardSelect`, data)
 });
-
-
 
 const arr = productsModel.productArray;
 
 arr.forEach(card => {
   const newCardClone = catalogTemplate.content.cloneNode(true) as DocumentFragment;
   const newcardElement = newCardClone.firstElementChild as HTMLElement;
-
+  
   const newCard = new CardCatalog(newcardElement, {
-  onClick: () => {
-    // console.log('catalog:changed');
-    coll.emit('selectedCard:changed', {newCard})
-  }
-});
+    onClick: () => {
+      // console.log('catalog:changed');
+      // coll.emit('catalog:changed', {newCard})
 
-const pic = 'src/images/logo.svg'
-
-newCard.category = card.category;
+    }
+  });
+  
+  const pic = 'src/images/logo.svg'
+  
+  newCard.category = card.category;
 // newCard.image = pic
 newCard.title = card.title;
 newCard.price = card.price as number;
@@ -187,7 +186,37 @@ gallery.appendChild(newCard.render());
 
 // //#region test CardPreview
 
+const cardPreview = document.getElementById('card-preview') as HTMLTemplateElement;
 
+const cardPreviewClone = cardPreview.content.cloneNode(true) as DocumentFragment;
+const cardPreviewElement = cardPreviewClone.firstElementChild as HTMLElement;
+
+// console.log(element);
+// console.log(arr);
+
+const select = new EventEmitter();
+
+select.on('selectedCard:changed', (data) =>{
+  console.log(`selectedCard`, data)
+});
+
+const cardPre = new CardPreview(cardPreviewElement, select
+)
+// (event, callback) {
+  
+// },: () => {
+  //   select.emit('card:select', {newCard})
+  // }});
+  
+  
+  cardPre.category = 'софт-скил'; 
+  cardPre.image = "src/images/logo.svg"; 
+  cardPre.description = '+1 час в сутках';
+  console.log(cardPre)
+  
+// const gallery = document.getElementById('gallery') as HTMLElement;
+
+// gallery.appendChild(card.render());
 
 // // #endregion
 
