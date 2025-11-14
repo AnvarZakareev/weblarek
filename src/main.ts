@@ -12,6 +12,7 @@ import { Card } from './components/views/card/Card';
 import { CardCatalog } from './components/views/card/CardCatalog';
 import { EventEmitter } from './components/base/Events'
 import { CardPreview } from './components/views/card/CardPreview';
+import { cloneTemplate } from './utils/utils';
 
 //#region test ProductCatalog
 
@@ -147,9 +148,9 @@ card.image = "src/images/logo.svg";
 card.title = '+1 час в сутках';
 card.price = 1750;
 
-const gallery = document.getElementById('gallery') as HTMLElement;
+const gallerya = document.getElementById('gallery') as HTMLElement;
 
-gallery.appendChild(card.render());
+gallerya.appendChild(card.render());
 
 const coll = new EventEmitter();
 
@@ -175,24 +176,21 @@ arr.forEach(card => {
   const pic = 'src/images/logo.svg'
   
   newCard.category = card.category;
-newCard.image = pic
-newCard.title = card.title;
-newCard.price = card.price as number;
+  newCard.image = pic
+  newCard.title = card.title;
+  newCard.price = card.price as number;
 
-gallery.appendChild(newCard.render());
+  gallerya.appendChild(newCard.render());
 });
 
 // #endregion
 
-// //#region test CardPreview
+// #region test CardPreview
 
 const cardPreview = document.getElementById('card-preview') as HTMLTemplateElement;
 
 const cardPreviewClone = cardPreview.content.cloneNode(true) as DocumentFragment;
 const cardPreviewElement = cardPreviewClone.firstElementChild as HTMLElement;
-
-// console.log(element);
-// console.log(arr);
 
 const select = new EventEmitter();
 
@@ -202,24 +200,43 @@ select.on('selectedCard:changed', (data) =>{
 
 const cardPre = new CardPreview(cardPreviewElement, select
 )
-// (event, callback) {
-  
-// },: () => {
-  //   select.emit('card:select', {newCard})
-  // }});
-  
   
   cardPre.category = 'софт-скил'; 
   cardPre.image = "src/images/logo.svg"; 
   cardPre.description = '+1 час в сутках';
-  console.log(cardPre)
+  
+// #endregion
   
 // const gallery = document.getElementById('gallery') as HTMLElement;
 
 // gallery.appendChild(card.render());
 
-// // #endregion
 
 //#region test Card
 
-// import {logo} from './images/logo.svg'
+//#region events
+
+// console.log(productsModel)
+const events = new EventEmitter();
+
+const gallery = new Gallery(gallerya);
+
+events.on('catalog:changed', () => {
+  const itemCards = productsModel.getItems().map((item) => {
+    const card = new CardCatalog(cloneTemplate(catalogTemplate), {
+      onClick: () => events.emit('card:select', item),
+    });
+    return card.render(item);
+  });
+
+  gallery.render({ catalog: itemCards })
+});
+
+// larekApi
+//   .getProductList()
+//   .then((data) => {
+//     productsModel.setItems(data.items);
+//   })
+//   .catch((err) => comsole.error(err));
+
+//#endregion
