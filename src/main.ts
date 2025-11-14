@@ -175,7 +175,7 @@ arr.forEach(card => {
   const pic = 'src/images/logo.svg'
   
   newCard.category = card.category;
-// newCard.image = pic
+newCard.image = pic
 newCard.title = card.title;
 newCard.price = card.price as number;
 

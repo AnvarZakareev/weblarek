@@ -44,7 +44,7 @@ export class CardCatalog extends Card<TCardCatalog> {
     }
 
     set image(value: string) {
-        this.imageElement.src = value;
+        this.setImage(this.imageElement, value, this.title)
     }
 
 }
