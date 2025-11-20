@@ -1,11 +1,14 @@
 import { IProduct } from '../../types/index.ts';
+import { EventEmitter } from '../base/Events.ts';
 
 export class BasketModel {
     private productArrayInBasket: IProduct[];
+    private events: EventEmitter;
 
-    constructor(productArrayInBasket: IProduct[] = []) 
+    constructor(productArrayInBasket: IProduct[] = [], events: EventEmitter) 
     {
         this.productArrayInBasket = productArrayInBasket;
+        this.events = events;
     }
 
     getProductArrayInBasket(): IProduct[] {
@@ -13,17 +16,20 @@ export class BasketModel {
     }
 
     addProductInBasket(product: IProduct) {
-            this.productArrayInBasket.push(product);
+        this.productArrayInBasket.push(product);
+        this.events.emit('basket:add');
     }
 
     delProductInBasket(delProduct: IProduct) {
         const originalLength = this.productArrayInBasket.length;
         this.productArrayInBasket = this.productArrayInBasket.filter(product => product.id !== delProduct.id);
+        this.events.emit('basket:remove');
         return this.productArrayInBasket.length < originalLength;
     }
 
     clearBasket() {
         this.productArrayInBasket = [];
+        this.events.emit('basket:clear');
     }
 
     getTotalPrice(): number {
