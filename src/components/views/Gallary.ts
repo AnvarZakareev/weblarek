@@ -16,5 +16,6 @@ export class Gallery<T> extends Component<IGallary & T> {
 
     set catalog(value: HTMLElement[]) {
         this.container.replaceChildren(...value);
+        // генерация события
     }
 }

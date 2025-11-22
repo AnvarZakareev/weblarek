@@ -13,10 +13,22 @@ import { CardCatalog } from './components/views/card/CardCatalog';
 import { EventEmitter } from './components/base/Events'
 import { CardPreview } from './components/views/card/CardPreview';
 import { cloneTemplate } from './utils/utils';
+import { categoryMap } from './utils/constants';
+
+const events = new EventEmitter();
+const catalogTemplate = document.getElementById('card-catalog') as HTMLTemplateElement;
+
+const cardClone = catalogTemplate.content.cloneNode(true) as DocumentFragment;
+const cardElement = cardClone.firstElementChild as HTMLElement;
+
+const gallerya = document.getElementById('gallery') as HTMLElement;
+
+const gallery = new Gallery(gallerya);
+
+const productsModel = new ProductCatalogModel();
 
 //#region test ProductCatalog
 
-const productsModel = new ProductCatalogModel();
 // // сохранение массива товаров полученного в параметрах метода
 productsModel.setItems(apiProducts.items);
 // console.log(`Массив товаров из каталога: `, productsModel.getItems());
@@ -79,22 +91,22 @@ productsModel.setItems(apiProducts.items);
 
 //#region test CompositionAPI
 
-async function main() {
-  const apiInstance = new Api(API_URL_WORKS);
-  // console.log(apiInstance)
-  const catalog = new CompositionAPI(apiInstance);
+// async function main() {
+//   const apiInstance = new Api(API_URL_WORKS);
+//   // console.log(apiInstance)
+//   const catalog = new CompositionAPI(apiInstance);
   
-  try {
-    // Получение каталога товаров
-    const productList = await catalog.fetchProducts();
-//     // Сохранение товаров
-    productsModel.setItems(productList.items)
-    console.log(`Наконец то получили массив товаров от сервера`, productsModel)
+//   try {
+//     // Получение каталога товаров
+//     const productList = await catalog.fetchProducts();
+// //     // Сохранение товаров
+//     productsModel.setItems(productList.items)
+//     console.log(`Наконец то получили массив товаров от сервера`, productsModel)
     
-  } catch (error) {
-//     console.error('Ошибка при загрузке каталога:', error);
-  }
-}
+//   } catch (error) {
+// //     console.error('Ошибка при загрузке каталога:', error);
+//   }
+// }
 
 // main();
 
@@ -127,110 +139,91 @@ async function main() {
 // sendOrderExample();
 //#endregion
 
-//#region test CardCatalog
-
-const catalogTemplate = document.getElementById('card-catalog') as HTMLTemplateElement;
-
-const cardClone = catalogTemplate.content.cloneNode(true) as DocumentFragment;
-const cardElement = cardClone.firstElementChild as HTMLElement;
-
-// console.log(element);
-// console.log(arr);
-
-const card = new CardCatalog(cardElement, {
-  onClick: () => {
-    console.log('???');
-  }
-});
-
-card.category = 'софт-скил'; 
-card.image = "src/images/logo.svg"; 
-card.title = '+1 час в сутках';
-card.price = 1750;
-
-const gallerya = document.getElementById('gallery') as HTMLElement;
-
-gallerya.appendChild(card.render());
-
-const coll = new EventEmitter();
-
-coll.on('catalog:changed', (data) =>{
-
-  // console.log(`cardSelect`, data)
-});
-
-const arr = productsModel.productArray;
-
-arr.forEach(card => {
-  const newCardClone = catalogTemplate.content.cloneNode(true) as DocumentFragment;
-  const newcardElement = newCardClone.firstElementChild as HTMLElement;
-  
-  const newCard = new CardCatalog(newcardElement, {
-    onClick: () => {
-      // console.log('catalog:changed');
-      // coll.emit('catalog:changed', {newCard})
-
-    }
-  });
-  
-  const pic = 'src/images/logo.svg'
-  
-  newCard.category = card.category;
-  newCard.image = pic
-  newCard.title = card.title;
-  newCard.price = card.price as number;
-
-  gallerya.appendChild(newCard.render());
-});
-
-// #endregion
 
 // #region test CardPreview
 
-const cardPreview = document.getElementById('card-preview') as HTMLTemplateElement;
+// const cardPreview = document.getElementById('card-preview') as HTMLTemplateElement;
 
-const cardPreviewClone = cardPreview.content.cloneNode(true) as DocumentFragment;
-const cardPreviewElement = cardPreviewClone.firstElementChild as HTMLElement;
+// const cardPreviewClone = cardPreview.content.cloneNode(true) as DocumentFragment;
+// const cardPreviewElement = cardPreviewClone.firstElementChild as HTMLElement;
 
-const select = new EventEmitter();
+// const select = new EventEmitter();
 
-select.on('selectedCard:changed', (data) =>{
-  console.log(`selectedCard`, data)
-});
+// select.on('selectedCard:changed', (data) =>{
+//   console.log(`selectedCard`, data)
+// });
 
-const cardPre = new CardPreview(cardPreviewElement, select
-)
-  
-  cardPre.category = 'софт-скил'; 
-  cardPre.image = "src/images/logo.svg"; 
-  cardPre.description = '+1 час в сутках';
-  
+// const cardPre = new CardPreview(cardPreviewElement, select
+// )
+
+//   cardPre.category = 'софт-скил'; 
+//   cardPre.image = "src/images/logo.svg"; 
+//   cardPre.description = '+1 час в сутках';
+
 // #endregion
-  
+
 // const gallery = document.getElementById('gallery') as HTMLElement;
 
 // gallery.appendChild(card.render());
 
+// console.log(productsModel)
+// const events = new EventEmitter();
+
+// const gallerya = document.getElementById('gallery') as HTMLElement;
+
+
+
+// const catalogTemplate = document.getElementById('card-catalog') as HTMLTemplateElement;
+
+// events.on('catalog:changed', () => {
+//   const itemCards = productsModel.getItems().map((item) => {
+//     const card = new CardCatalog(cloneTemplate(catalogTemplate), {
+//       onClick: () => events.emit('card:select', item),
+//     });
+//     return card.render(item);
+//   });
+  
+//   gallery.render({ catalog: itemCards })
+// });
 
 //#region test Card
 
 //#region events
 
-// console.log(productsModel)
-const events = new EventEmitter();
+// #region test CardCatalog
 
-const gallery = new Gallery(gallerya);
+const arr = productsModel.productArray;
 
-events.on('catalog:changed', () => {
-  const itemCards = productsModel.getItems().map((item) => {
-    const card = new CardCatalog(cloneTemplate(catalogTemplate), {
-      onClick: () => events.emit('card:select', item),
-    });
-    return card.render(item);
+const arrayCard: HTMLElement[] = [];
+
+arr.forEach(card => {
+  const newCardClone = catalogTemplate.content.cloneNode(true) as DocumentFragment;
+  const newcardElement = newCardClone.firstElementChild as HTMLElement;
+
+  const newCard = new CardCatalog(newcardElement, {
+    onClick: () => {
+      console.log('catalog:changed', {card});
+      events.emit('catalog:changed', {card});
+    }
   });
+  
+  newCard.category = card.category;
+  newCard.image = 'src/images/logo.svg';
+  newCard.title = card.title;
+  newCard.price = card.price as number;
 
-  gallery.render({ catalog: itemCards })
+  const element = newCard.render() as HTMLElement;
+
+  arrayCard.push(element);
+  
+  
 });
+
+gallery.catalog = arrayCard;
+
+// gallery.catalog = arrayCard;
+
+// #endregion
 
 // larekApi
 //   .getProductList()

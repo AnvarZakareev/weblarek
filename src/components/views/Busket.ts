@@ -18,6 +18,7 @@ export class Basket extends Component<IBasket> {
         this.basketPrice = ensureElement<HTMLElement>(
             '.basket__price',
             this.container
+            // генерация события
         );
         this.list = ensureElement<HTMLElement>(
             '.basket__list',
@@ -40,6 +41,7 @@ export class Basket extends Component<IBasket> {
 
     set cards(value: HTMLElement) {
         this.list = value
+        // генерация события
     }
 }
 
