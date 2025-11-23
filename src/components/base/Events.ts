@@ -18,7 +18,6 @@
 //     | "order:complete"
 //     | "modalState:changed"
 //     | "modal:close";
-
 // type EventName = EventType | '*' | RegExp;
 
 type EventName = string | RegExp;

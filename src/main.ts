@@ -1,3 +1,4 @@
+// #region import
 import './scss/styles.scss';
 import { apiProducts } from './utils/data'
 import { ProductCatalogModel } from './components/models/ProductCatalog';
@@ -14,18 +15,26 @@ import { EventEmitter } from './components/base/Events'
 import { CardPreview } from './components/views/card/CardPreview';
 import { cloneTemplate } from './utils/utils';
 import { categoryMap } from './utils/constants';
+import { Modal } from './components/views/Modal';
+// #endregion
 
+// #region const
 const events = new EventEmitter();
-const catalogTemplate = document.getElementById('card-catalog') as HTMLTemplateElement;
 
-const cardClone = catalogTemplate.content.cloneNode(true) as DocumentFragment;
-const cardElement = cardClone.firstElementChild as HTMLElement;
+const modalCardPreview = document.getElementById('card-preview') as HTMLTemplateElement;
+
+const modal = new Modal(events, )
+
+const catalogTemplate = document.getElementById('card-catalog') as HTMLTemplateElement;
+// const cardClone = catalogTemplate.content.cloneNode(true) as DocumentFragment;
+// const cardElement = cardClone.firstElementChild as HTMLElement;
 
 const gallerya = document.getElementById('gallery') as HTMLElement;
 
 const gallery = new Gallery(gallerya);
 
 const productsModel = new ProductCatalogModel();
+// #endregion
 
 //#region test ProductCatalog
 
@@ -42,6 +51,7 @@ productsModel.setItems(apiProducts.items);
 //#endregion
 
 //#region test Basket
+
 // const basketModel = new Basket()
 // // получение массива товаров, которые находятся в корзине
 // console.log('получение массива товаров, которые находятся в корзине', basketModel)
@@ -59,7 +69,8 @@ productsModel.setItems(apiProducts.items);
 // console.log('получение количества товаров в корзине', basketModel.getLengthProductInBasket())
 // // проверка наличия товара в корзине по его id, полученного в параметр метода
 // console.log('проверка наличия товара в корзине по его id, полученного в параметр метода', basketModel.checkProductInBasketById("b06cde61-912f-4663-9751-09956c0eed67"))
-// //#endregion
+
+//#endregion
 
 //#region test Buyer
 
@@ -139,9 +150,7 @@ productsModel.setItems(apiProducts.items);
 // sendOrderExample();
 //#endregion
 
-
 // #region test CardPreview
-
 // const cardPreview = document.getElementById('card-preview') as HTMLTemplateElement;
 
 // const cardPreviewClone = cardPreview.content.cloneNode(true) as DocumentFragment;
@@ -156,24 +165,13 @@ productsModel.setItems(apiProducts.items);
 // const cardPre = new CardPreview(cardPreviewElement, select
 // )
 
-//   cardPre.category = 'софт-скил'; 
-//   cardPre.image = "src/images/logo.svg"; 
-//   cardPre.description = '+1 час в сутках';
-
+// cardPre.category = 'софт-скил'; 
+// cardPre.image = "src/images/logo.svg"; 
+// cardPre.description = '+1 час в сутках';
 // #endregion
-
-// const gallery = document.getElementById('gallery') as HTMLElement;
-
-// gallery.appendChild(card.render());
-
 // console.log(productsModel)
+
 // const events = new EventEmitter();
-
-// const gallerya = document.getElementById('gallery') as HTMLElement;
-
-
-
-// const catalogTemplate = document.getElementById('card-catalog') as HTMLTemplateElement;
 
 // events.on('catalog:changed', () => {
 //   const itemCards = productsModel.getItems().map((item) => {
@@ -185,10 +183,6 @@ productsModel.setItems(apiProducts.items);
   
 //   gallery.render({ catalog: itemCards })
 // });
-
-//#region test Card
-
-//#region events
 
 // #region test CardCatalog
 
