@@ -25,6 +25,14 @@ export class Modal extends Component<IModal> {
         this.modalContainer = value;
         // генерация события
     }
+
+//     public open() {
+//         this.container.style.display = 'block';
+//     }
+
+//     public close() {
+//         this.container.style.display = 'none';
+// }
 }
 
 

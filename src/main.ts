@@ -21,13 +21,9 @@ import { Modal } from './components/views/Modal';
 // #region const
 const events = new EventEmitter();
 
-const modalCardPreview = document.getElementById('card-preview') as HTMLTemplateElement;
-
-const modal = new Modal(events, )
+const cardPreview = document.getElementById('card-preview') as HTMLTemplateElement;
 
 const catalogTemplate = document.getElementById('card-catalog') as HTMLTemplateElement;
-// const cardClone = catalogTemplate.content.cloneNode(true) as DocumentFragment;
-// const cardElement = cardClone.firstElementChild as HTMLElement;
 
 const gallerya = document.getElementById('gallery') as HTMLElement;
 
@@ -150,11 +146,66 @@ productsModel.setItems(apiProducts.items);
 // sendOrderExample();
 //#endregion
 
-// #region test CardPreview
-// const cardPreview = document.getElementById('card-preview') as HTMLTemplateElement;
+// #region test CardCatalog
+const arr = productsModel.productArray;
 
-// const cardPreviewClone = cardPreview.content.cloneNode(true) as DocumentFragment;
-// const cardPreviewElement = cardPreviewClone.firstElementChild as HTMLElement;
+const arrayCard: HTMLElement[] = [];
+
+arr.forEach(card => {
+  const newCardClone = catalogTemplate.content.cloneNode(true) as DocumentFragment;
+  const newcardElement = newCardClone.firstElementChild as HTMLElement;
+
+  const newCard = new CardCatalog(newcardElement, {
+    onClick: () => {
+      // console.log('test click');
+      events.emit('catalog:changed', {card});
+    }
+  });
+  
+  newCard.category = card.category;
+  newCard.image = 'src/images/logo.svg';
+  newCard.title = card.title;
+  newCard.price = card.price as number;
+
+  const element = newCard.render() as HTMLElement;
+
+  arrayCard.push(element);
+});
+
+gallery.catalog = arrayCard;
+// gallery.catalog = arrayCard;
+
+// #endregion
+
+// #region test CardPreview
+
+const cardPreviewClone = cardPreview.content.cloneNode(true) as DocumentFragment;
+const cardPreviewElement = cardPreviewClone.firstElementChild as HTMLElement;
+// const modal = new Modal(events, cardPreview);
+
+const cardPre = new CardPreview(cardPreviewElement, events)
+
+// Показываем модальное окно
+function showModal() {
+  cardPreview.style.display = 'flex'; // или 'flex'
+}
+
+// Скрываем модальное окно
+function hideModal() {
+  cardPreview.style.display = 'none';
+}
+
+// Подписка на события
+events.on('catalog:changed', () => {
+  // console.log('test ok')
+  console.log(cardPre)
+
+  showModal();
+});
+
+events.on('closeModal', () => {
+  hideModal();
+});
 
 // const select = new EventEmitter();
 
@@ -184,46 +235,3 @@ productsModel.setItems(apiProducts.items);
 //   gallery.render({ catalog: itemCards })
 // });
 
-// #region test CardCatalog
-
-const arr = productsModel.productArray;
-
-const arrayCard: HTMLElement[] = [];
-
-arr.forEach(card => {
-  const newCardClone = catalogTemplate.content.cloneNode(true) as DocumentFragment;
-  const newcardElement = newCardClone.firstElementChild as HTMLElement;
-
-  const newCard = new CardCatalog(newcardElement, {
-    onClick: () => {
-      console.log('catalog:changed', {card});
-      events.emit('catalog:changed', {card});
-    }
-  });
-  
-  newCard.category = card.category;
-  newCard.image = 'src/images/logo.svg';
-  newCard.title = card.title;
-  newCard.price = card.price as number;
-
-  const element = newCard.render() as HTMLElement;
-
-  arrayCard.push(element);
-  
-  
-});
-
-gallery.catalog = arrayCard;
-
-// gallery.catalog = arrayCard;
-
-// #endregion
-
-// larekApi
-//   .getProductList()
-//   .then((data) => {
-//     productsModel.setItems(data.items);
-//   })
-//   .catch((err) => comsole.error(err));
-
-//#endregion
