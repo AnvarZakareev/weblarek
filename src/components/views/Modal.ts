@@ -25,6 +25,7 @@ export class Modal extends Component<IModal> {
         this.modalContainer = value;
         // генерация события
     }
+};
 
 //     public open() {
 //         this.container.style.display = 'block';
@@ -33,14 +34,3 @@ export class Modal extends Component<IModal> {
 //     public close() {
 //         this.container.style.display = 'none';
 // }
-}
-
-
-
-
-// content: HTMLElement
-// counter
-// this.button = ensureElementHTMLButtonElement>
-// container: HTMLElement
-// --------------
-// set content(item: HTMLElement)

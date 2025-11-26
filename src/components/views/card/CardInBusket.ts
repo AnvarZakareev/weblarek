@@ -23,5 +23,6 @@ export class CardInBusket extends Card<ICardInBusket> {
 
     set item(value: number) {
         this.itemElement.textContent = String(value)
+        // генерация события
     }
 }

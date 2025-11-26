@@ -17,46 +17,41 @@ import { cloneTemplate } from './utils/utils';
 import { categoryMap } from './utils/constants';
 import { Modal } from './components/views/Modal';
 import { Header } from './components/views/Header';
+import { Basket } from './components/views/Busket';
 // #endregion
 
 // #region const
 const events = new EventEmitter();
 
-// const modalContainer = document.getElementById('modal-container') as HTMLTemplateElement;
+const galleryTemplate = document.getElementById('gallery') as HTMLElement;
 
-const previewTemplate = document.getElementById('card-preview') as HTMLTemplateElement;
+const headerTemplate = document.getElementById('header-container') as HTMLElement;
+
+const modalTemplate = document.getElementById('modal-container') as HTMLElement;
 
 const catalogTemplate = document.getElementById('card-catalog') as HTMLTemplateElement;
 
-const galleryTemplate = document.getElementById('gallery') as HTMLElement;
+const previewTemplate = document.getElementById('card-preview') as HTMLTemplateElement;
+
+const header = new Header(events, headerTemplate)
 
 const gallery = new Gallery(galleryTemplate);
 
+// const basketTemplate = document.getElementById('basket') as HTMLTemplateElement;
+
+// // console.log(basketTemplate)
+
+// const basket = new Basket(events, basketTemplate)
+
+// gallery.render();
+
 const productsModel = new ProductCatalogModel();
 
-const harder = document.getElementById('header') as HTMLElement;
+const modal = new Modal(events, modalTemplate);
 
-const header = new Header()
+//#endregion
 
 productsModel.setItems(apiProducts.items);
-
-const arrayCard2: HTMLElement[] = [];
-
-const newCard = new CardCatalog(cloneTemplate(catalogTemplate), {
-  onClick: () => {
-    // console.log('test click');
-    events.emit('catalog:changed', {});
-  }
-});
-
-  newCard.category = 'другое';
-
-  const element = newCard.render() as HTMLElement;
-
-arrayCard2.push(element);
-
-gallery.catalog = [...arrayCard2];
-/** */
 
 events.on('catalog:changed', () => {
   const itemCards = productsModel.getItems().map((item) => {
@@ -65,13 +60,17 @@ events.on('catalog:changed', () => {
     });
     return card.render(item);
   });
-    gallery.render({ catalog: itemCards })
+  gallery.render({ catalog: itemCards })
 });
 
+events.emit('catalog:changed', {})
 
 events.on('card:select', (item) => {
-  console.log(item);
-  // const itemCards = productsModel.getItems().map((item) => {
-  //   const previewCard = new CardPreview(cloneTemplate(previewTemplate), 
-  // )})
+  const cardPreview = new CardPreview(cloneTemplate(previewTemplate), events)
+  console.log(cardPreview.render(item));
+  modalTemplate.style.display = 'block'
+  modal.content = cardPreview.render(item);
+  modal.render()
 })
+
+// modal.render({  })

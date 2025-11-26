@@ -27,14 +27,17 @@ export class CardPreview extends Card<TCardPreview> {
 
     set image(value: string) {
         this.imageElement.src = String(value);
+        // генерация события
     }    
     
     set category(value: string) {
         this.categoryElement.textContent = String(value);
+        // генерация события
     }    
     
     set description(value: string) {
         this.descriptionElement.textContent = String(value);
+        // генерация события
     }
 
 }
