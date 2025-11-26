@@ -2,7 +2,7 @@
 // Зато когда захотите поменять это достаточно сделать в одном месте
 
 // type EventType =
-//     | "catalog:changed"
+//     +| "catalog:changed"
 //     | "selectedCard:changed"
 //     | "card:select"
 //     | "basket:open"
