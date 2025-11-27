@@ -25,7 +25,7 @@ const events = new EventEmitter();
 
 const galleryTemplate = document.getElementById('gallery') as HTMLElement;
 
-const headerTemplate = document.getElementById('header-container') as HTMLElement;
+// const headerTemplate = document.getElementById('header-container') as HTMLElement;
 
 const modalTemplate = document.getElementById('modal-container') as HTMLElement;
 
@@ -33,17 +33,9 @@ const catalogTemplate = document.getElementById('card-catalog') as HTMLTemplateE
 
 const previewTemplate = document.getElementById('card-preview') as HTMLTemplateElement;
 
-const header = new Header(events, headerTemplate)
+// const header = new Header(events, headerTemplate)
 
 const gallery = new Gallery(galleryTemplate);
-
-// const basketTemplate = document.getElementById('basket') as HTMLTemplateElement;
-
-// // console.log(basketTemplate)
-
-// const basket = new Basket(events, basketTemplate)
-
-// gallery.render();
 
 const productsModel = new ProductCatalogModel();
 
@@ -67,10 +59,11 @@ events.emit('catalog:changed', {})
 
 events.on('card:select', (item) => {
   const cardPreview = new CardPreview(cloneTemplate(previewTemplate), events)
-  console.log(cardPreview.render(item));
+  modal.render({ content: cardPreview.render(item) });
   modalTemplate.style.display = 'block'
-  modal.content = cardPreview.render(item);
-  modal.render()
 })
 
-// modal.render({  })
+
+events.on('modal:close',  () => {
+  modalTemplate.style.display = 'none'
+});

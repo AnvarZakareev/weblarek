@@ -22,8 +22,8 @@ export class Modal extends Component<IModal> {
     }
 
     set content(value: HTMLElement) {
-        this.modalContainer = value;
-        // генерация события
+        this.modalContainer.innerHTML = '';
+        this.modalContainer.appendChild(value);
     }
 };
 
