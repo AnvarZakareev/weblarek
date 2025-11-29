@@ -6,7 +6,7 @@ export type ICardInBusket = {
     item: number
 }
 
-export class CardInBusket extends Card<ICardInBusket> {
+export class CardBusket extends Card<ICardInBusket> {
     protected itemElement: HTMLElement;
     protected deleteElementButton: HTMLButtonElement;
 
@@ -17,10 +17,11 @@ export class CardInBusket extends Card<ICardInBusket> {
         this.deleteElementButton = ensureElement<HTMLButtonElement>('.basket__item-delete', this.container)
     
         this.deleteElementButton.addEventListener('click', () => {
-            this.events.emit('element:delete')
+            this.events.emit('basket:remove')
         })
     }
 
+    // номер в корзине
     set item(value: number) {
         this.itemElement.textContent = String(value)
         // генерация события

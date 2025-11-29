@@ -62,7 +62,7 @@ productsModel.setItems(apiProducts.items);
 // // очистка корзины
 // basketModel.clearBasket()
 // // добавление товара, который был получен в параметре, в массив корзины;
-// basketModel.addProductInBasket(apiProducts.items[0])
+// basketModel.addProductInBasket( .items[0])
 // basketModel.addProductInBasket(apiProducts.items[1])
 // // удаление товара, полученного в параметре из массива корзины
 // // console.log(basketModel.delProductInBasket(test1))

@@ -15,19 +15,9 @@ export class Basket extends Component<IBasket> {
     constructor(protected events: IEvents, container: HTMLElement) {
         super(container);
 
-        this.basketPrice = ensureElement<HTMLElement>(
-            '.basket__price',
-            this.container
-            // генерация события
-        );
-        this.list = ensureElement<HTMLElement>(
-            '.basket__list',
-            this.container
-        );
-        this.designButtom = ensureElement<HTMLButtonElement>(
-            '.basket__button',
-            this.container
-        );
+        this.basketPrice = ensureElement<HTMLElement>('.basket__price', this.container);
+        this.list = ensureElement<HTMLElement>('.basket__list', this.container);
+        this.designButtom = ensureElement<HTMLButtonElement>( '.basket__button', this.container);
         
         this.designButtom.addEventListener('click', () => {
             this.events.emit('basket:close')
@@ -44,19 +34,3 @@ export class Basket extends Component<IBasket> {
         // генерация события
     }
 }
-
-
-
-// -----------
-// cards: Card[]
-// button: HTMLButtonElement
-// allPrice: number
-// ----------
-// Конструктор:
-// cards: Card
-// allPrice: number
-// this.button = ensureElement<HTMLButtonElement>
-// container: HTMLElement
-// -----------
-// set cards(item: Card[]
-// set allPrice(item: number)

@@ -2,14 +2,14 @@
 // Зато когда захотите поменять это достаточно сделать в одном месте
 
 // type EventType =
-//     +| "catalog:changed"
+//     | "catalog:changed"
 //     | "selectedCard:changed"
 //     | "card:select"
 //     | "basket:open"
-//     +| "basket:add"
-//     +| "basket:remove"
+//     | "basket:add"
+//     | "basket:remove"
 //     | "basket:changed"
-//     +| "basket:clear"
+//     | "basket:clear"
 //     | "form:changed"
 //     | "buyer:changed"
 //     | "order:start"
