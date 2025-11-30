@@ -34,7 +34,6 @@ export class CardCatalog extends Card<TCardCatalog> {
 
     set category(value: string) {
         this.categoryElement.textContent = value;
-        // генерация события
 
         for (const key in categoryMap) {
             this.categoryElement.classList.toggle(
@@ -46,7 +45,6 @@ export class CardCatalog extends Card<TCardCatalog> {
 
     set image(value: string) {
         this.setImage(this.imageElement, value, this.title)
-        // генерация события
     }
 
 }

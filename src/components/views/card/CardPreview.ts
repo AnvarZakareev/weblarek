@@ -3,6 +3,10 @@ import { ensureElement } from "../../../utils/utils";
 import { IEvents } from "../../base/Events";
 import { Card } from "./Card";
 
+type ICardActions = {
+  onClick?: (event: Event) => void;
+}
+
 export type TCardPreview = Pick<IProduct, 'image' | 'category' | 'description'>
 
 export class CardPreview extends Card<TCardPreview> {
@@ -12,7 +16,7 @@ export class CardPreview extends Card<TCardPreview> {
     protected addElementButton: HTMLButtonElement;
 
 
-    constructor(container: HTMLElement, protected events: IEvents) {
+    constructor(container: HTMLElement, actions?: ICardActions) {
         super(container);
 
         this.imageElement = ensureElement<HTMLImageElement>('.card__image', this.container);
@@ -20,24 +24,21 @@ export class CardPreview extends Card<TCardPreview> {
         this.descriptionElement = ensureElement<HTMLElement>('.card__text', this.container);
         this.addElementButton = ensureElement<HTMLButtonElement>('.card__button', this.container);
 
-        this.addElementButton.addEventListener('click', () => {
-            this.events.emit('basket:add', this.container)
-        })
+        if(actions?.onClick) {
+            this.addElementButton.addEventListener('click', actions.onClick);
+        }
     }
 
     set image(value: string) {
         this.imageElement.src = String(value);
-        // генерация события
     }    
     
     set category(value: string) {
         this.categoryElement.textContent = String(value);
-        // генерация события
     }    
     
     set description(value: string) {
         this.descriptionElement.textContent = String(value);
-        // генерация события
     }
 
 }
