@@ -3,7 +3,7 @@ import { Component } from "../base/Component";
 import { IEvents } from "../base/Events";
 
 interface IBasket {
-    cards: HTMLElement;
+    cards: HTMLElement[];
     sum: number;
 }
 
@@ -12,7 +12,7 @@ export class Basket extends Component<IBasket> {
     protected designButtom: HTMLButtonElement;
     protected list: HTMLElement;
 
-    constructor(protected events: IEvents, container: HTMLElement) {
+    constructor(container: HTMLElement, protected events: IEvents, ) {
         super(container);
 
         this.basketPrice = ensureElement<HTMLElement>('.basket__price', this.container);
@@ -20,17 +20,18 @@ export class Basket extends Component<IBasket> {
         this.designButtom = ensureElement<HTMLButtonElement>( '.basket__button', this.container);
         
         this.designButtom.addEventListener('click', () => {
-            this.events.emit('basket:close')
+            this.events.emit('basket:close');
         })
-        
     }
 
     set sum(value: number) {
-        this.basketPrice.textContent = String(value)
+        this.basketPrice.textContent = String(value);
     }
 
-    set cards(value: HTMLElement) {
-        this.list = value
-        // генерация события
+    set cards(value: HTMLElement[]) {
+        this.list.innerHTML = '';
+        value.forEach(card => {
+            this.list.appendChild(card);
+        });
     }
 }

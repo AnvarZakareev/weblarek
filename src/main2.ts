@@ -121,6 +121,11 @@ function buttonText(item: IProduct, cardPreview: CardPreview):void {
   }}
 };
 
+// изменения счетчика товаров в корзине
+function basketChanged ():void {
+  header.counter = basketModel.getLengthProductInBasket();
+}
+
 // закрыть модальное окно
 function closeModal() {
   modalTemplate.style.display = 'none';
@@ -135,18 +140,28 @@ function showModal() {
               // Реакция на клики
               // -----------------
 
-// клик по кнопке 'корзина' в шапке
-events.on('basket:open',  () => {
-// const cardArray = basketModel.getProductArrayInBasket().map((item, index) => {
-//     const cardBus = new CardInBusket(cloneTemplate(inBusketTemplate), {
-//       onClick: () => events.emit('basket:remove', item),
-//     });
-//     return cardBus.render(item);
-//     // console.log(cardBus.render(item));
-//   });
-//   basket.cards = cardArray;
-  modal.render({ content: basket.render()});
+events.on('catalog:changed', () => {
+  const itemCards = productsModel.getItems().map((item) => {
+    const card = new CardCatalog(cloneTemplate(catalogTemplate), {
+      onClick: () => events.emit('selectedCard:changed', item),
+    });
+    return card.render(item);
+  });
+  gallery.render({ catalog: itemCards })
+});
+
+// console.log(inBusketTemplate);
+// клик по кнопке 'корзинa' в шапке
+events.on('basket:open', () => {
+  const cardArray = basketModel.getProductArrayInBasket().map((item) => {
+    console.log(item);
+    const card = new CardInBusket(cloneTemplate(inBusketTemplate), {
+      onClick: () => events.emit('basket:remove', item),
+    });
+    return card.render(item);
+  });
   showModal();
+  basket.render({ cards: cardArray});
 });
 
 // клик по карточке товара в галерее
@@ -158,7 +173,6 @@ events.on('selectedCard:changed', (item: IProduct) => {
   modal.render({ content: cardPreview.render(item) });
   showModal();
 });
-
 
 // клик по кнопке 'крестику' в модальном окне
 events.on('modal:close',  () => {
@@ -176,35 +190,22 @@ events.on('card:select', (item: IProduct) => {
   }
 });
 
-// корзина изменена
-events.on('basket:changed', () => {
-  console.log('basket:changed')
-  const counter = basketModel.getLengthProductInBasket();
-  header.render({ counter });
-  const totalPrice = basketModel.getTotalPrice();
-  console.log(totalPrice);
-  const list = basketModel.getProductArrayInBasket().map((item, index) => {
-    const cardItem = {
-      title: item.title,
-      price: item.price,
-      item: index + 1,
-    };
+              // -----------------
+              // Доклады корзины
+              // -----------------
 
-    const card = new CardInBusket(cloneTemplate(inBusketTemplate), {
-      onClick: () => events.emit('basket:remove', item)
-    });
+// // товар добавлен в корзину
+// events.on('basket:add', () => {
+//   basketModel
+//   basketChanged();
+// });
 
-    return card.render(cardItem);
-  });
-  basket.render({ cards: list, sum: totalPrice });
-});
+// // товар удален из корзины
+// events.on('basket:remove', () => {
+//   basketChanged();
+// });
 
-// товар удален из корзины
-events.on('basket:remove', (item: IProduct) => {
-  basketModel.delProductInBasket(item);
-});
-
-// // 
+// // корзина отчищена
 // events.on('basket:clear', () => {
 //   basketChanged();
 // });

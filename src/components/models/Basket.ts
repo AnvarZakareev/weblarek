@@ -17,19 +17,19 @@ export class BasketModel {
 
     addProductInBasket(product: IProduct) {
         this.productArrayInBasket.push(product);
-        this.events.emit('basket:add');
+        this.events.emit('basket:changed');
     }
 
     delProductInBasket(delProduct: IProduct) {
         const originalLength = this.productArrayInBasket.length;
         this.productArrayInBasket = this.productArrayInBasket.filter(product => product.id !== delProduct.id);
-        this.events.emit('basket:remove');
+        this.events.emit('basket:changed');
         return this.productArrayInBasket.length < originalLength;
     }
 
     clearBasket() {
         this.productArrayInBasket = [];
-        this.events.emit('basket:clear');
+        this.events.emit('basket:changed');
     }
 
     getTotalPrice(): number {
