@@ -137,14 +137,14 @@ function showModal() {
 
 // клик по кнопке 'корзина' в шапке
 events.on('basket:open',  () => {
-// const cardArray = basketModel.getProductArrayInBasket().map((item, index) => {
-//     const cardBus = new CardInBusket(cloneTemplate(inBusketTemplate), {
-//       onClick: () => events.emit('basket:remove', item),
-//     });
-//     return cardBus.render(item);
-//     // console.log(cardBus.render(item));
-//   });
-//   basket.cards = cardArray;
+  const container: HTMLElement = basket.render();
+  const buttonContayner = ensureElement<HTMLButtonElement>('.button', container);
+  if (basketModel.getLengthProductInBasket() == 0) {
+    buttonContayner.disabled = true;
+  }
+  else {
+    buttonContayner.disabled = false;
+  }
   modal.render({ content: basket.render()});
   showModal();
 });
@@ -178,11 +178,9 @@ events.on('card:select', (item: IProduct) => {
 
 // корзина изменена
 events.on('basket:changed', () => {
-  console.log('basket:changed')
   const counter = basketModel.getLengthProductInBasket();
   header.render({ counter });
   const totalPrice = basketModel.getTotalPrice();
-  console.log(totalPrice);
   const list = basketModel.getProductArrayInBasket().map((item, index) => {
     const cardItem = {
       title: item.title,
@@ -204,14 +202,6 @@ events.on('basket:remove', (item: IProduct) => {
   basketModel.delProductInBasket(item);
 });
 
-// // 
-// events.on('basket:clear', () => {
-//   basketChanged();
-// });
-
-
-
-
 
 
 //     +| "catalog:changed"        // вызов загрузки карточек в галлерею
@@ -220,8 +210,8 @@ events.on('basket:remove', (item: IProduct) => {
 //     +| "basket:open"            // клик по кнопке 'корзину' в шапке
 //     +| "basket:add"             // добавление в корзину
 //     +| "basket:remove"          // удальть товар с корзины
-//     | "basket:changed"         // изменения в корзине
-//     +| "basket:clear"           // корзина отчистить
+//     +| "basket:changed"         // изменения в корзине
+//     | "basket:clear"           // корзина отчистить
 //     | "form:changed"           // форма изменить
 //     | "buyer:changed"          // покупатель изменить
 //     | "order:start"            // заказ начало
