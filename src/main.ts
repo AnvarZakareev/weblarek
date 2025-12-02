@@ -20,6 +20,7 @@ import { categoryMap } from './utils/constants';
 import { Modal } from './components/views/Modal';
 import { Header } from './components/views/Header';
 import { Basket } from './components/views/Basket';
+import { Contacts } from './components/views/form/Contacts';
 // #endregion
 
 // #region const
@@ -191,7 +192,6 @@ events.on('basket:changed', () => {
   });
   const container: HTMLElement = basket.render();
   const buttonContayner = ensureElement<HTMLButtonElement>('.button', container);
-  // console.log(true)
 
   if (totalPrice == 0) {
     buttonContayner.disabled = true;
@@ -208,6 +208,17 @@ events.on('basket:remove', (item: IProduct) => {
   basketModel.delProductInBasket(item);
 });
 
+//клик по кнопке оформить в корзине
+events.on('order:start', () => {
+  closeModal();
+  const constants = new Contacts(cloneTemplate(previewTemplate),  {
+    onClick: () => events.emit('card:select', item),
+  });
+  buttonText(cardPreview);
+  modal.render({ content: cardPreview.render(item) });
+  showModal();
+});
+
 
 
 //     +| "catalog:changed"        // вызов загрузки карточек в галлерею
@@ -220,7 +231,7 @@ events.on('basket:remove', (item: IProduct) => {
 //     | "basket:clear"           // корзина отчистить
 //     | "form:changed"           // форма изменить
 //     | "buyer:changed"          // покупатель изменить
-//     | "order:start"            // заказ начало
+//     +| "order:start"            // заказ начало
 //     | "order:next"             // заказ второй
 //     | "order:post"             // заказ последний
 //     | "order:complete"         // заказ завершить

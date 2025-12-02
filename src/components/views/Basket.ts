@@ -20,7 +20,7 @@ export class Basket extends Component<IBasket> {
         this.designButtom = ensureElement<HTMLButtonElement>( '.basket__button', this.container);
         
         this.designButtom.addEventListener('click', () => {
-            this.events.emit('basket:close');
+            this.events.emit('order:start');
         })
     }
 
