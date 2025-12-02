@@ -66,6 +66,10 @@ productsModel.setItems(apiProducts.items);
 // счетчик корзины
 header.counter = basketModel.getLengthProductInBasket();
 
+const container: HTMLElement = basket.render();
+const buttonContayner = ensureElement<HTMLButtonElement>('.button', container);
+buttonContayner.disabled = true;
+
 // #endregion
 
 // загрузка карточек в галлерею
@@ -137,14 +141,6 @@ function showModal() {
 
 // клик по кнопке 'корзина' в шапке
 events.on('basket:open',  () => {
-  const container: HTMLElement = basket.render();
-  const buttonContayner = ensureElement<HTMLButtonElement>('.button', container);
-  if (basketModel.getLengthProductInBasket() == 0) {
-    buttonContayner.disabled = true;
-  }
-  else {
-    buttonContayner.disabled = false;
-  }
   modal.render({ content: basket.render()});
   showModal();
 });
@@ -158,7 +154,6 @@ events.on('selectedCard:changed', (item: IProduct) => {
   modal.render({ content: cardPreview.render(item) });
   showModal();
 });
-
 
 // клик по кнопке 'крестику' в модальном окне
 events.on('modal:close',  () => {
@@ -191,9 +186,20 @@ events.on('basket:changed', () => {
     const card = new CardInBusket(cloneTemplate(inBusketTemplate), {
       onClick: () => events.emit('basket:remove', item)
     });
-
+    
     return card.render(cardItem);
   });
+  const container: HTMLElement = basket.render();
+  const buttonContayner = ensureElement<HTMLButtonElement>('.button', container);
+  // console.log(true)
+
+  if (totalPrice == 0) {
+    buttonContayner.disabled = true;
+  }
+  else if (totalPrice > 0) {
+    buttonContayner.disabled = false;
+  }
+
   basket.render({ cards: list, sum: totalPrice });
 });
 
