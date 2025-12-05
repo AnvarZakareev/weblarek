@@ -1,10 +1,10 @@
-// import type { TPayment } from '../../../types/index.ts';
 import { IBuyer } from '../../types/index.ts';
+import { IEvents } from '../base/Events.ts';
 
 export class BuyerModel {
     private buyer: Partial<IBuyer> = {};
 
-    constructor(buyer?: IBuyer) {
+    constructor(protected events: IEvents, buyer?: IBuyer) {
         this.buyer = buyer ?? {};
     } 
 
@@ -13,6 +13,7 @@ export class BuyerModel {
             this.buyer = {} as IBuyer;
         }
         this.buyer[key] = value;
+        this.events.emit('buyer:changed');
     }
 
     getBuyerData(): IBuyer | null {
@@ -24,6 +25,7 @@ export class BuyerModel {
 
     clearBuyerData(): void {
         this.buyer = {};
+        this.events.emit('buyer:changed');
     }
     
     validBuyerData(): { [K in keyof IBuyer]?: string } {

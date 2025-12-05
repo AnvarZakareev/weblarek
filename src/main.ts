@@ -4,23 +4,18 @@ import { apiProducts } from './utils/data'
 import { ProductCatalogModel } from './components/models/ProductCatalog';
 import { BasketModel } from './components/models/Basket';
 import { ensureElement } from "../src/utils/utils";
-import { BuyerModel } from './components/models/Buyer';
-import { IProduct, TPayment } from './types/index'
-import { CompositionAPI } from './components/base/CompositionApi';
-import { Api } from './components/base/Api';
-import { API_URL_WORKS } from './utils/constants'
+import { IBuyer, IProduct } from './types/index'
 import { Gallery } from './components/views/Gallary';
-import { Card } from './components/views/card/Card';
 import { CardCatalog } from './components/views/card/CardCatalog';
-import { EventEmitter, IEvents } from './components/base/Events'
+import { EventEmitter } from './components/base/Events'
 import { CardPreview } from './components/views/card/CardPreview';
 import { CardInBusket } from './components/views/card/CardBusket';
 import { cloneTemplate } from './utils/utils';
-import { categoryMap } from './utils/constants';
 import { Modal } from './components/views/Modal';
 import { Header } from './components/views/Header';
 import { Basket } from './components/views/Basket';
-import { Contacts } from './components/views/form/Contacts';
+import { Order } from './components/views/form/Order';
+import { BuyerModel } from './components/models/Buyer';
 // #endregion
 
 // #region const
@@ -29,7 +24,10 @@ const events = new EventEmitter();
 
 const productsModel = new ProductCatalogModel();
 
+const bayer = new BuyerModel(events);
+
 const basketModel = new BasketModel(undefined, events);
+
 
 
 const headerTemplate = document.getElementById('header-container') as HTMLTemplateElement;
@@ -55,6 +53,8 @@ const previewTemplate = document.getElementById('card-preview') as HTMLTemplateE
 
 const inBusketTemplate = document.getElementById('card-basket') as HTMLTemplateElement;
 
+const orderTemplate = document.getElementById('order') as HTMLTemplateElement;
+
 //#endregion
 
 // #region start
@@ -69,6 +69,7 @@ header.counter = basketModel.getLengthProductInBasket();
 
 const container: HTMLElement = basket.render();
 const buttonContayner = ensureElement<HTMLButtonElement>('.button', container);
+//по умолчанию кнопка 'Оформить' недоступна
 buttonContayner.disabled = true;
 
 // #endregion
@@ -211,14 +212,27 @@ events.on('basket:remove', (item: IProduct) => {
 //клик по кнопке оформить в корзине
 events.on('order:start', () => {
   closeModal();
-  const constants = new Contacts(cloneTemplate(previewTemplate),  {
-    onClick: () => events.emit('card:select', item),
-  });
-  buttonText(cardPreview);
-  modal.render({ content: cardPreview.render(item) });
+  const constants = new Order(cloneTemplate(orderTemplate), events);
+  modal.render({ content: constants.render() });
   showModal();
-});
+})
 
+// изменения в форме
+events.on('form:changed', (data: { key: keyof IBuyer, value: string }) => {
+  bayer.saveBuyerData(data.key, data.value);
+})
+
+// данные пользователя сохранены
+events.on('buyer:changed', () => {
+  console.log (bayer.getBuyerData());
+  if (!bayer.validBuyerData()) {
+    console.log('val')
+  }
+})
+
+// ----------------------------------- to do -----------------------------------
+// для теста форм удалить до релиза
+events.emit('order:start')
 
 
 //     +| "catalog:changed"        // вызов загрузки карточек в галлерею
@@ -229,10 +243,10 @@ events.on('order:start', () => {
 //     +| "basket:remove"          // удальть товар с корзины
 //     +| "basket:changed"         // изменения в корзине
 //     | "basket:clear"           // корзина отчистить
-//     | "form:changed"           // форма изменить
+//     +| "form:changed"           // форма изменить
 //     | "buyer:changed"          // покупатель изменить
 //     +| "order:start"            // заказ начало
-//     | "order:next"             // заказ второй
+//     +| "order:next"             // заказ второй
 //     | "order:post"             // заказ последний
 //     | "order:complete"         // заказ завершить
 //     | "modalState:changed"     // 

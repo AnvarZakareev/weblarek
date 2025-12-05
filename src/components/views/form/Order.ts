@@ -1,36 +1,45 @@
 import { IBuyer } from "../../../types"
-import { ensureElement } from "../../../utils/utils";
+import { ensureAllElements, ensureElement } from "../../../utils/utils";
 import { IEvents } from "../../base/Events";
 import { Forms } from "./Forms"
 
 
-export type TOrder = Pick<IBuyer, 'payment' | 'address'>
+export type TOrder = Pick<IBuyer, 'payment' | 'address'>;
 
-export class Order extends Forms<TOrder> {
-    protected buttonPayment: HTMLButtonElement;
-    protected adresBuyer: HTMLInputElement;
-    protected buttonNext: HTMLButtonElement;
+export interface X {
+    payment: TOrder,
+    address: string
+}
 
-    constructor(protected events: IEvents, container: HTMLElement){
-        super(container);
+export class Order extends Forms<X> {
+    protected buttonNodes: HTMLButtonElement[];
+    protected addressBuyer: HTMLInputElement;
 
-        this.buttonPayment = ensureElement<HTMLButtonElement>('.button_alt', this.container);
-        this.adresBuyer = ensureElement<HTMLInputElement>('.form__input', this.container);
-        this.buttonNext = ensureElement<HTMLButtonElement>('.basket__item-index', this.container);
+    constructor(container: HTMLElement, protected events: IEvents){
+        super(events, container);
+
+        this.buttonNodes = ensureAllElements<HTMLButtonElement>('.button_alt', this.container)
+        this.addressBuyer = ensureElement<HTMLInputElement>('.form__input', this.container);
         
-        this.buttonNext.addEventListener('click', () => {
-            this.events.emit('form:send')
+        this.buttonNodes.forEach( button => {
+            button.addEventListener('click', () => {
+                this.events.emit('form:changed', {key: 'payment', value: button.name});
+            })
         })
+        this.addressBuyer.addEventListener('input', () => {
+            this.events.emit('form:changed', { key: 'address', value: this.addressBuyer.value})
+        });
+
     }
 
-    // set payment(value: TPayment) {
-    //     this.payment.
-    // }
+    set payment(value: TOrder) {
+        console.log(value);
+        this.buttonNodes = value;
+    };
 
 
     set address(value: string) {
-        this.adresBuyer.textContent = value;
-    }
-
+        this.addressBuyer.value = value;
+    };
 
 }

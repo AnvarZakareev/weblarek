@@ -11,14 +11,14 @@ export class Contacts extends Forms<TContacts> {
     protected buttonPay: HTMLButtonElement;
 
     constructor(protected events: IEvents, container: HTMLElement) {
-        super(container);
+        super(events, container);
 
         this.emailBuyer = ensureElement<HTMLElement>('#email', this.container)
         this.phoneBuyer = ensureElement<HTMLElement>('#phone', this.container)
         this.buttonPay = ensureElement<HTMLButtonElement>('.button', this.container)
 
         this.buttonPay.addEventListener('click', () => {
-            this.events.emit('form:pay')
+            events.emit('form:pay')
         })
     }
     
