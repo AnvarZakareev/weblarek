@@ -6,15 +6,16 @@ import { IEvents } from "../../base/Events";
 export type TOrderSuccess = IBuyer
 
 export class OrderSuccess extends Component<TOrderSuccess> {
-    protected buttonRestart: HTMLButtonElement;
+    protected buttonSucess: HTMLButtonElement;
 
     constructor(protected events: IEvents, container: HTMLElement) {
         super(container);
 
-        this.buttonRestart = ensureElement<HTMLButtonElement>('.order-success__close', this.container)
+        this.buttonSucess = ensureElement<HTMLButtonElement>('.order-success__close', this.container)
     
-        this.buttonRestart.addEventListener('click', () => {
-            this.events.emit('any')
-        })
+        this.buttonSucess.addEventListener('click', () => {
+            events.emit('order:complete');
+            console.log('order:complete');
+        });
     }
 }

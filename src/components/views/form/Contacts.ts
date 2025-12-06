@@ -8,18 +8,13 @@ export type TContacts = Pick<IBuyer, 'email' | 'phone'>
 export class Contacts extends Forms<TContacts> {
     protected emailBuyer: HTMLElement;
     protected phoneBuyer: HTMLElement;
-    protected buttonPay: HTMLButtonElement;
+   
 
     constructor(protected events: IEvents, container: HTMLElement) {
         super(events, container);
 
-        this.emailBuyer = ensureElement<HTMLElement>('#email', this.container)
-        this.phoneBuyer = ensureElement<HTMLElement>('#phone', this.container)
-        this.buttonPay = ensureElement<HTMLButtonElement>('.button', this.container)
-
-        this.buttonPay.addEventListener('click', () => {
-            events.emit('form:pay')
-        })
+        this.emailBuyer = ensureElement<HTMLElement>('.email', this.container);
+        this.phoneBuyer = ensureElement<HTMLElement>('.phone', this.container);
     }
     
     set email(value: string) {
@@ -29,4 +24,5 @@ export class Contacts extends Forms<TContacts> {
     set phone(value: string) {
         this.phoneBuyer.textContent = value;
     }
+
 }

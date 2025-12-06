@@ -16,6 +16,7 @@ import { Header } from './components/views/Header';
 import { Basket } from './components/views/Basket';
 import { Order } from './components/views/form/Order';
 import { BuyerModel } from './components/models/Buyer';
+import { Forms } from './components/views/form/Forms';
 // #endregion
 
 // #region const
@@ -27,7 +28,6 @@ const productsModel = new ProductCatalogModel();
 const bayer = new BuyerModel(events);
 
 const basketModel = new BasketModel(undefined, events);
-
 
 
 const headerTemplate = document.getElementById('header-container') as HTMLTemplateElement;
@@ -173,6 +173,18 @@ events.on('card:select', (item: IProduct) => {
   }
 });
 
+//клик по кнопке оформить в корзине
+events.on('order:start', () => {
+  closeModal();
+  const constants = new Order(cloneTemplate(orderTemplate), events);
+  modal.render({ content: constants.render() });
+  showModal();
+});
+
+              // --------------------
+              // Реакция от моделей
+              // --------------------
+
 // корзина изменена
 events.on('basket:changed', () => {
   const counter = basketModel.getLengthProductInBasket();
@@ -209,26 +221,50 @@ events.on('basket:remove', (item: IProduct) => {
   basketModel.delProductInBasket(item);
 });
 
-//клик по кнопке оформить в корзине
-events.on('order:start', () => {
-  closeModal();
-  const constants = new Order(cloneTemplate(orderTemplate), events);
-  modal.render({ content: constants.render() });
-  showModal();
-})
+// function checkValid (data: { key: keyof IBuyer, value: string }) {
+//   if (data.value === '' ) {
+//     console.log('te')
+//   }
+//   else console.log('st')
+// }
 
 // изменения в форме
+
 events.on('form:changed', (data: { key: keyof IBuyer, value: string }) => {
+  console.log(data);
+  if (bayer.validBuyerData()) {
+    console.log('123')
+  }
   bayer.saveBuyerData(data.key, data.value);
-})
+  // checkValid(data)
+  // const errors = bayer.validBuyerData()
+  //   console.log(Object.values(errors))
+
+  // if (Object.keys(errors).length === 4) {
+  //   console.log(1)
+  // }
+  // else {
+  //   for (const x in errors) {
+  //     if (errors.hasOwnProperty(x)) {
+  //       console.log(2)
+  //     }}
+  //   }
+  // // bayer.saveBuyerData(data.key, data.value);
+});
+
 
 // данные пользователя сохранены
 events.on('buyer:changed', () => {
   console.log (bayer.getBuyerData());
-  if (!bayer.validBuyerData()) {
-    console.log('val')
-  }
-})
+  const bayerData = bayer.getBuyerData();
+  console.log(bayerData?.address)
+  console.log(bayerData?.email)
+  console.log(bayerData?.payment)
+});
+
+
+
+
 
 // ----------------------------------- to do -----------------------------------
 // для теста форм удалить до релиза
@@ -244,10 +280,10 @@ events.emit('order:start')
 //     +| "basket:changed"         // изменения в корзине
 //     | "basket:clear"           // корзина отчистить
 //     +| "form:changed"           // форма изменить
-//     | "buyer:changed"          // покупатель изменить
+//     +| "buyer:changed"          // покупатель изменить
 //     +| "order:start"            // заказ начало
-//     +| "order:next"             // заказ второй
+//     | "order:next"             // заказ второй
 //     | "order:post"             // заказ последний
-//     | "order:complete"         // заказ завершить
+//     +| "order:complete"         // заказ завершить
 //     | "modalState:changed"     // 
 //     +| "modal:close";           // закрыть модальное окно
