@@ -6,18 +6,19 @@ import { IEvents } from "../../base/Events";
 export class Forms<T> extends Component<IProduct & T> {
     protected buttonNext: HTMLButtonElement;
     protected errorContacts: HTMLElement;
+    protected event: HTMLFormElement;
     
-    constructor(events: IEvents, container: HTMLElement) {
+    constructor(container: HTMLElement, events: IEvents) {
         super(container);
         this.errorContacts = ensureElement<HTMLElement>('.form__errors', this.container)
         this.buttonNext = ensureElement<HTMLButtonElement>('.button', this.container);
+        this.event = ensureElement<HTMLFormElement>('form', this.container)
     
-        this.buttonNext.addEventListener('click', () => {
-            events.emit('order:post');
-            console.log('order:post');
-        });
-    
-    }
+        this.container.addEventListener('submit', (e: Event) => {
+            e.preventDefault();
+            this.event.emit(`${this.container.getAttribute('name')}:submit`);
+        })
+    };
 
     set valid(value: boolean) {
         this.buttonNext.disabled = value;

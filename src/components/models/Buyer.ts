@@ -14,6 +14,7 @@ export class BuyerModel {
         }
         this.buyer[key] = value;
         this.events.emit('buyer:changed');
+        // console.log('test buyer:changed')
     }
 
     getBuyerData(): IBuyer | null {

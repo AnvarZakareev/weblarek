@@ -17,7 +17,7 @@ export class Order extends Forms<X> {
 
 
     constructor(container: HTMLElement, protected events: IEvents){
-        super(events, container);
+        super(container, events);
 
         this.buttonNodes = ensureAllElements<HTMLButtonElement>('.button_alt', this.container);
         this.addressBuyer = ensureElement<HTMLInputElement>('.form__input', this.container);
@@ -35,9 +35,11 @@ export class Order extends Forms<X> {
 
     set payment(value: TPayment) {
         console.log(value);
+        console.log('test value');
         this.buttonNodes.forEach((button: HTMLButtonElement) => {
             const buttonName = button.name as TPayment;
             if (buttonName == value) {
+                console.log('button_alt-active')
                 button.classList.add('button_alt-active');
             };
         });
