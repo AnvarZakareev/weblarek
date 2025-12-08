@@ -28,6 +28,7 @@ export class Order extends Forms<X> {
                 this.events.emit('form:changed', {key: 'payment', value: button.name});
             });
         })
+        
         this.addressBuyer.addEventListener('input', () => {
             this.events.emit('form:changed', { key: 'address', value: this.addressBuyer.value})
         });

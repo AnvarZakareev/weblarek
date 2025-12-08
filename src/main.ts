@@ -232,13 +232,14 @@ events.on('form:changed', (data: { key: keyof IBuyer, value: string }) => {
   bayer.saveBuyerData(data.key, data.value);
 })
 
-
 // данные пользователя изменены
 events.on('buyer:changed', () => {
-  let orderErrors = ''
+  const orderErrors: string[] = [];
+
   const paymentError = bayer.validBuyerData().payment;
+
   if (paymentError) {
-    orderErrors += paymentError;
+    orderErrors.push(paymentError);
   }
   else {
     order.payment = bayer.getBuyerData()?.payment as TPayment
@@ -246,12 +247,34 @@ events.on('buyer:changed', () => {
 
   const addressError = bayer.validBuyerData().address;
   if (addressError) {
-    orderErrors += addressError;
+    orderErrors.push(addressError);
   }
   else {
     order.address = bayer.getBuyerData()?.address as TPayment
   }
-  order.errors = orderErrors;
+  order.errors = orderErrors.join(' ');
+
+
+
+  const contactsErrors: string[] = [];
+
+  const emailError = bayer.validBuyerData().email;
+
+  if (emailError) {
+    contactsErrors.push(emailError);
+  }
+  else {
+    contacts.email = bayer.getBuyerData()?.email as TPayment
+  }
+
+  const phoneError = bayer.validBuyerData().phone;
+  if (phoneError) {
+    contactsErrors.push(phoneError);
+  }
+  else {
+    contacts.email = bayer.getBuyerData()?.phone as TPayment
+  }
+  contacts.errors = contactsErrors.join(' ');
 });
 
 
@@ -260,6 +283,8 @@ events.on('order:next', () => {
   modal.render({ content: contacts.render() });
   showModal();
 });
+
+
 // ----------------------------------- to do -----------------------------------
 // для теста форм удалить до релиза
 events.emit('order:next')
