@@ -34,18 +34,17 @@ export class Order extends Forms<X> {
     };
 
     set payment(value: TPayment) {
-        console.log(value);
-        console.log('test value');
         this.buttonNodes.forEach((button: HTMLButtonElement) => {
             const buttonName = button.name as TPayment;
             if (buttonName == value) {
-                console.log('button_alt-active')
                 button.classList.add('button_alt-active');
+            }
+            else {
+                button.classList.remove('button_alt-active')
             };
         });
     };
     set address(value: string) {
         this.addressBuyer.value = value;
     };
-
 }

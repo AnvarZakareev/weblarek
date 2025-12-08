@@ -4,7 +4,7 @@ import { apiProducts } from './utils/data'
 import { ProductCatalogModel } from './components/models/ProductCatalog';
 import { BasketModel } from './components/models/Basket';
 import { ensureElement } from "../src/utils/utils";
-import { IBuyer, IProduct } from './types/index'
+import { IBuyer, IProduct, TPayment } from './types/index'
 import { Gallery } from './components/views/Gallary';
 import { CardCatalog } from './components/views/card/CardCatalog';
 import { EventEmitter } from './components/base/Events'
@@ -17,6 +17,7 @@ import { Basket } from './components/views/Basket';
 import { Order } from './components/views/form/Order';
 import { BuyerModel } from './components/models/Buyer';
 import { Forms } from './components/views/form/Forms';
+import { Contacts } from './components/views/form/Contacts';
 // #endregion
 
 // #region const
@@ -56,6 +57,11 @@ const inBusketTemplate = document.getElementById('card-basket') as HTMLTemplateE
 const orderTemplate = document.getElementById('order') as HTMLTemplateElement;
 
 const order = new Order(cloneTemplate(orderTemplate), events);
+
+const contactsTemplate = document.getElementById('contacts') as HTMLTemplateElement;
+
+const contacts = new Contacts(cloneTemplate(contactsTemplate), events);
+
 
 //#endregion
 
@@ -186,13 +192,12 @@ events.on('order:start', () => {
               // Реакция от моделей
               // --------------------
 
-// корзина изменена
-
 // товар удален из корзины
 events.on('basket:remove', (item: IProduct) => {
   basketModel.delProductInBasket(item);
 });
 
+// корзина изменена
 events.on('basket:changed', () => {
   const counter = basketModel.getLengthProductInBasket();
   header.render({ counter });
@@ -219,7 +224,6 @@ events.on('basket:changed', () => {
   else if (totalPrice > 0) {
     buttonContayner.disabled = false;
   }
-
   basket.render({ cards: list, sum: totalPrice });
 });
 
@@ -228,48 +232,37 @@ events.on('form:changed', (data: { key: keyof IBuyer, value: string }) => {
   bayer.saveBuyerData(data.key, data.value);
 })
 
-function showEror (errors: string): void {
-    if (errors) {
-    order.errors = errors;
-  }
-  else if (!errors) {
-    order.errors = errors;
-    console.log(Object.keys(order))
-  }
-}
 
 // данные пользователя изменены
 events.on('buyer:changed', () => {
-  const errorsAddress = bayer.validBuyerData().address;
-  // console.log(bayer.validBuyerData());
-  // order.errors = Object.values.address(errors);
-  showEror(errorsAddress);
-  const errorsPayment = bayer.validBuyerData().payment;
-  showEror(errorsPayment);
-  if (!order.errors) {
-    // console.log(order.errors)
+  let orderErrors = ''
+  const paymentError = bayer.validBuyerData().payment;
+  if (paymentError) {
+    orderErrors += paymentError;
+  }
+  else {
+    order.payment = bayer.getBuyerData()?.payment as TPayment
   }
 
-  // console.log('stop')
-  // console.log(bayer.getBuyerData());
-  
-  // let showEror: any = '';
-  // if (!bayer.validBuyerData().payment) {
-  //   showEror = bayer.validBuyerData().payment;
-  //   console.log(showEror)
-  // }
-  // if (!bayer.validBuyerData().address) {
-  //   showEror = bayer.validBuyerData().address;
-  // }
+  const addressError = bayer.validBuyerData().address;
+  if (addressError) {
+    orderErrors += addressError;
+  }
+  else {
+    order.address = bayer.getBuyerData()?.address as TPayment
+  }
+  order.errors = orderErrors;
 });
 
 
-
-
-
+events.on('order:next', () => {
+  closeModal();
+  modal.render({ content: contacts.render() });
+  showModal();
+});
 // ----------------------------------- to do -----------------------------------
 // для теста форм удалить до релиза
-events.emit('order:start')
+events.emit('order:next')
 
 
 //     +| "catalog:changed"        // вызов загрузки карточек в галлерею

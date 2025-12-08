@@ -10,11 +10,11 @@ export class Contacts extends Forms<TContacts> {
     protected phoneBuyer: HTMLElement;
    
 
-    constructor(protected events: IEvents, container: HTMLElement) {
-        super(container, events);
+    constructor(container: HTMLElement, protected events: IEvents) {
+        super(container);
 
-        this.emailBuyer = ensureElement<HTMLElement>('.email', this.container);
-        this.phoneBuyer = ensureElement<HTMLElement>('.phone', this.container);
+        this.emailBuyer = ensureElement<HTMLElement>('input[name="email"]', this.container);
+        this.phoneBuyer = ensureElement<HTMLElement>('input[name="phone"]', this.container);
     }
     
     set email(value: string) {
