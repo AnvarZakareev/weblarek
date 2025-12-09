@@ -14,6 +14,7 @@ export interface X {
 export class Order extends Forms<X> {
     protected buttonNodes: HTMLButtonElement[];
     protected addressBuyer: HTMLInputElement;
+    protected buttonNext: HTMLButtonElement;
 
 
     constructor(container: HTMLElement, protected events: IEvents){
@@ -21,7 +22,7 @@ export class Order extends Forms<X> {
 
         this.buttonNodes = ensureAllElements<HTMLButtonElement>('.button_alt', this.container);
         this.addressBuyer = ensureElement<HTMLInputElement>('.form__input', this.container);
-
+        this.buttonNext = ensureElement<HTMLButtonElement>('.button', this.container);
 
         this.buttonNodes.forEach( button => {
             button.addEventListener('click', () => {
@@ -32,6 +33,10 @@ export class Order extends Forms<X> {
         this.addressBuyer.addEventListener('input', () => {
             this.events.emit('form:changed', { key: 'address', value: this.addressBuyer.value})
         });
+        
+        this.buttonNext.addEventListener('click', () => {
+            events.emit('order:next')
+        })
     };
 
     set payment(value: TPayment) {

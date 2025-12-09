@@ -253,7 +253,10 @@ events.on('buyer:changed', () => {
     order.address = bayer.getBuyerData()?.address as TPayment
   }
   order.errors = orderErrors.join(' ');
-
+  
+  if (!orderErrors.length) {
+    order.valid = false;
+  }
 
 
   const contactsErrors: string[] = [];
@@ -275,8 +278,11 @@ events.on('buyer:changed', () => {
     contacts.email = bayer.getBuyerData()?.phone as TPayment
   }
   contacts.errors = contactsErrors.join(' ');
-});
 
+  if (!contactsErrors.length) {
+    contacts.valid = false;
+  }
+});
 
 events.on('order:next', () => {
   closeModal();
@@ -284,10 +290,10 @@ events.on('order:next', () => {
   showModal();
 });
 
-
 // ----------------------------------- to do -----------------------------------
 // для теста форм удалить до релиза
-events.emit('order:next')
+events.emit('order:start')
+// events.emit('order:next')
 
 
 //     +| "catalog:changed"        // вызов загрузки карточек в галлерею

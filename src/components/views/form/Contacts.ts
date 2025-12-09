@@ -11,7 +11,7 @@ export class Contacts extends Forms<TContacts> {
    
 
     constructor(container: HTMLElement, protected events: IEvents) {
-        super(container);
+        super(container, events);
 
         this.emailBuyer = ensureElement<HTMLInputElement>('input[name="email"]', this.container);
         this.phoneBuyer = ensureElement<HTMLInputElement>('input[name="phone"]', this.container);
