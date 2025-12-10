@@ -14,7 +14,7 @@ export interface X {
 export class Order extends Forms<X> {
     protected buttonNodes: HTMLButtonElement[];
     protected addressBuyer: HTMLInputElement;
-    protected buttonNext: HTMLButtonElement;
+    // protected buttonNext: HTMLButtonElement;
 
 
     constructor(container: HTMLElement, protected events: IEvents){
@@ -22,21 +22,34 @@ export class Order extends Forms<X> {
 
         this.buttonNodes = ensureAllElements<HTMLButtonElement>('.button_alt', this.container);
         this.addressBuyer = ensureElement<HTMLInputElement>('.form__input', this.container);
-        this.buttonNext = ensureElement<HTMLButtonElement>('.button', this.container);
+        // this.buttonNext = ensureElement<HTMLButtonElement>('.order__button', this.container);
 
         this.buttonNodes.forEach( button => {
             button.addEventListener('click', () => {
                 this.events.emit('form:changed', {key: 'payment', value: button.name});
             });
-        })
+        });
         
         this.addressBuyer.addEventListener('input', () => {
             this.events.emit('form:changed', { key: 'address', value: this.addressBuyer.value})
         });
-        
-        this.buttonNext.addEventListener('click', () => {
-            events.emit('order:next')
-        })
+
+        // const form = ensureElement<HTMLFormElement>('.form', this.container);
+        // form.addEventListener('submit', (e) => {
+        //     e.preventDefault();
+        //     console.log('Форма отправлена!');
+        // });
+        // console.log(container)
+        // console.log(this.container)
+        // this.container.querySelector('form')?.addEventListener('submit', (e: Event) => {
+        //     console.log('submit');
+
+        //     e.preventDefault();
+        //     // this.events.emit(`${this.container.getAttribute('name')}:submit`);
+        // });
+        // this.buttonNext.addEventListener('click', () => {
+        //     events.emit('order:next');
+        // });
     };
 
     set payment(value: TPayment) {
@@ -46,7 +59,7 @@ export class Order extends Forms<X> {
                 button.classList.add('button_alt-active');
             }
             else {
-                button.classList.remove('button_alt-active')
+                button.classList.remove('button_alt-active');
             };
         });
     };

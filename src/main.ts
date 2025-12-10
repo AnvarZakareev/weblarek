@@ -18,6 +18,7 @@ import { Order } from './components/views/form/Order';
 import { BuyerModel } from './components/models/Buyer';
 import { Forms } from './components/views/form/Forms';
 import { Contacts } from './components/views/form/Contacts';
+import { OrderSuccess } from './components/views/form/OrderSuccess';
 // #endregion
 
 // #region const
@@ -62,6 +63,9 @@ const contactsTemplate = document.getElementById('contacts') as HTMLTemplateElem
 
 const contacts = new Contacts(cloneTemplate(contactsTemplate), events);
 
+const successTemplate = document.getElementById('success') as HTMLTemplateElement;
+
+const success = new OrderSuccess(cloneTemplate(successTemplate), events)
 
 //#endregion
 
@@ -284,11 +288,27 @@ events.on('buyer:changed', () => {
   }
 });
 
-events.on('order:next', () => {
+events.on('order:submit', () => {
   closeModal();
   modal.render({ content: contacts.render() });
   showModal();
 });
+
+events.on('contacts:submit', () => {
+  closeModal();
+  success.message = basketModel.getTotalPrice();
+  modal.render({ content: success.render() });
+  showModal();
+});
+
+events.on('order:complete', () => {
+  basketModel.clearBasket();
+})
+
+events.on('basket:clear', () => {
+  closeModal();
+  bayer.clearBuyerData();
+})
 
 // ----------------------------------- to do -----------------------------------
 // для теста форм удалить до релиза
@@ -303,12 +323,12 @@ events.emit('order:start')
 //     +| "basket:add"             // добавление в корзину
 //     +| "basket:remove"          // удальть товар с корзины
 //     +| "basket:changed"         // изменения в корзине
-//     | "basket:clear"           // корзина отчистить
+//     +| "basket:clear"           // корзина отчистить
 //     +| "form:changed"           // форма изменить
 //     +| "buyer:changed"          // покупатель изменить
 //     +| "order:start"            // заказ начало
-//     | "order:next"             // заказ второй
-//     | "order:post"             // заказ последний
+//     +| "order:submit"           // заказ второй
+//     +| "contacts:submit"        // заказ последний
 //     +| "order:complete"         // заказ завершить
 //     | "modalState:changed"     // 
 //     +| "modal:close";           // закрыть модальное окно
