@@ -82,10 +82,13 @@ header.counter = basketModel.getLengthProductInBasket();
 const container: HTMLElement = basket.render();
 const buttonContayner = ensureElement<HTMLButtonElement>('.button', container);
 //по умолчанию кнопка 'Оформить' недоступна
-buttonContayner.disabled = true;
+if (basket.sum == 0) {
+  buttonContayner.disabled = true;
+}
 
 // #endregion
 
+  console.log(bayer.getBuyerData())
 // загрузка карточек в галлерею
 events.on('catalog:changed', () => {
   const itemCards = productsModel.getItems().map((item) => {
@@ -307,6 +310,7 @@ events.on('order:complete', () => {
 
 events.on('basket:clear', () => {
   closeModal();
+  basket.sum = 0;
   bayer.clearBuyerData();
 })
 
