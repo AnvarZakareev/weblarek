@@ -1,7 +1,6 @@
 // #region import
 
 import './scss/styles.scss';
-// import { apiProducts } from './utils/data'
 import { ProductCatalogModel } from './components/models/ProductCatalog';
 import { BasketModel } from './components/models/Basket';
 import { ensureElement } from "../src/utils/utils";
@@ -21,7 +20,8 @@ import { Contacts } from './components/views/form/Contacts';
 import { OrderSuccess } from './components/views/form/OrderSuccess';
 import { Api } from './components/base/Api';
 import { CompositionAPI } from './components/base/CompositionApi';
-import { API_URL_WORKS, CDN_URL } from '../src/utils/constants'
+import { API_URL_WORKS } from '../src/utils/constants'
+import { IBuyerExtended } from './types/index';
 // #endregion
 
 // #region const
@@ -70,7 +70,7 @@ const success = new OrderSuccess(cloneTemplate(successTemplate), events)
 
 //#endregion
 
-// #region pre set
+// #region async
 
 async function main() {
   const apiInstance = new Api(API_URL_WORKS);
@@ -81,27 +81,27 @@ async function main() {
     const productList = await catalog.fetchProducts();
     productsModel.setItems(productList.items)
     console.log('Запрос на сервер успешен:', productList)
-  } catch (error) {
+  } 
+  catch (error) {
     console.error('Ошибка при загрузке каталога:', error);
   }
 }
 
-main();
+// main();
 
-async function orderApi() {
+async function orderApi(basketData: IBuyerExtended) {
   const apiInstance = new Api(API_URL_WORKS);
   
-  const catalog = new CompositionAPI(apiInstance);
+  const basket = new CompositionAPI(apiInstance);
   
   try {
-    const productList = await catalog.fetchProducts();
-    productsModel.setItems(productList.items)
-    console.log('Запрос на сервер успешен:', productList)
-  } catch (error) {
-    console.error('Ошибка при загрузке каталога:', error);
+    const bayer = await basket.sendOrder(basketData);
+    console.log('Покупка успешна:', bayer)
+  } 
+  catch (error) {
+    console.error('Ошибка при оформлении:', error);
   }
 }
-
 
 // счетчик корзины
 header.counter = basketModel.getLengthProductInBasket();
@@ -143,8 +143,8 @@ function buttonText(item: IProduct, cardPreview: CardPreview):void {
     }}
   };
   
-  // закрыть модальное окно
-  function closeModal() {
+// закрыть модальное окно
+function closeModal() {
   modalTemplate.style.display = 'none';
 };
 
@@ -155,7 +155,7 @@ function showModal() {
 
 //#endregion
 
-//#region  click
+//#region click
  
 // клик по кнопке 'корзина' в шапке
 events.on('basket:open',  () => {
@@ -173,7 +173,7 @@ events.on('selectedCard:changed', (item: IProduct) => {
   showModal();
 });
 
-// клик по кнопке 'крестику' в модальном окне
+// клик по кнопке 'крестику' в модальном окне и вне окна
 events.on('modal:close',  () => {
   closeModal();
 });
@@ -209,10 +209,6 @@ events.on('catalog:changed', () => {
     if(canBuy(item)) {
       item.price = 0;
     }
-    // console.log(item.image)
-    // card.image = `${CDN_URL}${item.image}`
-    // console.log(card.image)
-
     return card.render(item);
   });
   gallery.render({ catalog: itemCards })
@@ -251,6 +247,7 @@ events.on('basket:changed', () => {
     buttonContayner.disabled = false;
   }
   basket.render({ cards: list, sum: totalPrice });
+
 });
 
 // форма изменена
@@ -321,11 +318,29 @@ events.on('order:submit', () => {
 
 // заказ последний
 events.on('contacts:submit', () => {
+  const idArray: string[] = basketModel.getProductArrayInBasket().map(item => item.id)
+  const totalPrice = basketModel.getTotalPrice();
 
+  const basketData: IBuyerExtended = {
+    items: idArray, 
+    total: totalPrice, 
+    payment: bayer.getBuyerData()?.payment as TPayment,
+    email: bayer.getBuyerData()?.email as TPayment,
+    phone: bayer.getBuyerData()?.phone as TPayment,
+    address: bayer.getBuyerData()?.address as TPayment
+  };
+  
+  orderApi(basketData)
   closeModal();
   success.message = basketModel.getTotalPrice();
   modal.render({ content: success.render() });
   basketModel.clearBasket();
+  order.address = ''
+  order.payment = ''
+  order.errors = ''
+  contacts.email = ''
+  contacts.phone = ''
+  contacts.errors = ''
   bayer.clearBuyerData();
   basket.cards = [];
   showModal();
@@ -339,14 +354,6 @@ events.on('order:complete', () => {
 //#endregion
 
 //#region to do
-
-
-
-// ----------------------------------- to do -----------------------------------
-// для теста форм удалить до релиза
-// events.emit('order:start')
-// events.emit('order:next')
-
 
 //     +| "catalog:changed"        +// изменение каталога товаров
 //     +| "selectedCard:changed"   +// клик по карточке товара в галерее
