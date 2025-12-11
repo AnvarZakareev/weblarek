@@ -1,7 +1,7 @@
 // #region import
 
 import './scss/styles.scss';
-import { apiProducts } from './utils/data'
+// import { apiProducts } from './utils/data'
 import { ProductCatalogModel } from './components/models/ProductCatalog';
 import { BasketModel } from './components/models/Basket';
 import { ensureElement } from "../src/utils/utils";
@@ -19,14 +19,16 @@ import { Order } from './components/views/form/Order';
 import { BuyerModel } from './components/models/Buyer';
 import { Contacts } from './components/views/form/Contacts';
 import { OrderSuccess } from './components/views/form/OrderSuccess';
-
+import { Api } from './components/base/Api';
+import { CompositionAPI } from './components/base/CompositionApi';
+import { API_URL_WORKS, CDN_URL } from '../src/utils/constants'
 // #endregion
 
 // #region const
 
 const events = new EventEmitter();
 
-const productsModel = new ProductCatalogModel();
+const productsModel = new ProductCatalogModel(events);
 
 const bayer = new BuyerModel(events);
 
@@ -70,10 +72,36 @@ const success = new OrderSuccess(cloneTemplate(successTemplate), events)
 
 // #region pre set
 
-// ----------------------------------- to do -----------------------------------
-// после интеграции с АПИ изменить на, данные с сервера
-// массив карточек с модели данных
-productsModel.setItems(apiProducts.items);
+async function main() {
+  const apiInstance = new Api(API_URL_WORKS);
+  
+  const catalog = new CompositionAPI(apiInstance);
+  
+  try {
+    const productList = await catalog.fetchProducts();
+    productsModel.setItems(productList.items)
+    console.log('Запрос на сервер успешен:', productList)
+  } catch (error) {
+    console.error('Ошибка при загрузке каталога:', error);
+  }
+}
+
+main();
+
+async function orderApi() {
+  const apiInstance = new Api(API_URL_WORKS);
+  
+  const catalog = new CompositionAPI(apiInstance);
+  
+  try {
+    const productList = await catalog.fetchProducts();
+    productsModel.setItems(productList.items)
+    console.log('Запрос на сервер успешен:', productList)
+  } catch (error) {
+    console.error('Ошибка при загрузке каталога:', error);
+  }
+}
+
 
 // счетчик корзины
 header.counter = basketModel.getLengthProductInBasket();
@@ -181,6 +209,10 @@ events.on('catalog:changed', () => {
     if(canBuy(item)) {
       item.price = 0;
     }
+    // console.log(item.image)
+    // card.image = `${CDN_URL}${item.image}`
+    // console.log(card.image)
+
     return card.render(item);
   });
   gallery.render({ catalog: itemCards })
@@ -226,6 +258,8 @@ events.on('form:changed', (data: { key: keyof IBuyer, value: string }) => {
   bayer.saveBuyerData(data.key, data.value);
 })
 
+// ----------------------------------- to do -----------------------------------
+// слишком длинно
 // данные пользователя изменены
 events.on('buyer:changed', () => {
   const orderErrors: string[] = [];
@@ -287,6 +321,7 @@ events.on('order:submit', () => {
 
 // заказ последний
 events.on('contacts:submit', () => {
+
   closeModal();
   success.message = basketModel.getTotalPrice();
   modal.render({ content: success.render() });
@@ -305,10 +340,8 @@ events.on('order:complete', () => {
 
 //#region to do
 
-// ----------------------------------- to do -----------------------------------
-// после интеграции с АПИ изменить на, реакцию после загрузки данных с сервера
-// вызов загрузки карточек в галлерею
-events.emit('catalog:changed', {})
+
+
 // ----------------------------------- to do -----------------------------------
 // для теста форм удалить до релиза
 // events.emit('order:start')

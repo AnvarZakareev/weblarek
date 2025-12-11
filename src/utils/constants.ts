@@ -7,6 +7,7 @@ export const API_URL_WORKS = `https://larek-api.nomoreparties.co/api/weblarek`;
 Для получения полной ссылки на картинку необходимо к CDN_URL добавить только название файла изображения,
 которое хранится в объекте товара. */
 export const CDN_URL = `${import.meta.env.VITE_API_ORIGIN}/content/weblarek`;
+export const CDN_URL_WORKS = `https://larek-api.nomoreparties.co/content/weblarek`;
 
 /* Константа соответствий категорий товара модификаторам, используемым для отображения фона категории. */
 export const categoryMap = {
