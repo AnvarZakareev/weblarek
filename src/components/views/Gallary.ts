@@ -1,4 +1,3 @@
-import { ensureElement } from "../../utils/utils";
 import { Component } from "../base/Component";
 
 interface IGallary {
@@ -10,12 +9,9 @@ export class Gallery<T> extends Component<IGallary & T> {
 
     constructor(container: HTMLElement) {
         super(container);
-
-        // this.catalogElement = ensureElement<HTMLElement>('.gallery', this.container);
     }
 
     set catalog(value: HTMLElement[]) {
         this.container.replaceChildren(...value);
-        // генерация события
     }
 }

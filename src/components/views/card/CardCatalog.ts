@@ -8,14 +8,6 @@ type ICardActions = {
   onClick?: (event: Event) => void;
 }
 
-// const categoryMap = {
-//     'софт-скил': 'card__category-hard',
-//     'хард-скил': 'card__category-soft',
-//     'кнопка': 'card__category-button',
-//     'дополнительное': 'card__category-additional',
-//     'другое': 'card__category-other',
-// }
-
 type CategoryKey = keyof typeof categoryMap;
 export type TCardCatalog = Pick<IProduct, 'image' | 'category'>;
 
@@ -48,12 +40,4 @@ export class CardCatalog extends Card<TCardCatalog> {
         this.imageElement.src = CDN_URL_WORKS+value;
         this.imageElement.alt = 'Изображение товара';
     }
-
-// set image(value: string) {
-//     this.imageElement.src = value;
-//     if (this.imageElement) {
-//     } else {
-//         console.error('Элемент изображения не найден');
-//     }
-// }
 }

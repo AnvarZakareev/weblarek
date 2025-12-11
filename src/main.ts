@@ -80,14 +80,14 @@ async function main() {
   try {
     const productList = await catalog.fetchProducts();
     productsModel.setItems(productList.items)
-    console.log('Запрос на сервер успешен:', productList)
+    // console.log('Запрос на сервер успешен:', productList)
   } 
   catch (error) {
     console.error('Ошибка при загрузке каталога:', error);
   }
 }
 
-// main();
+main();
 
 async function orderApi(basketData: IBuyerExtended) {
   const apiInstance = new Api(API_URL_WORKS);
@@ -332,15 +332,14 @@ events.on('contacts:submit', () => {
   
   orderApi(basketData)
   closeModal();
+  // сброс всех данных
   success.message = basketModel.getTotalPrice();
   modal.render({ content: success.render() });
   basketModel.clearBasket();
   order.address = ''
   order.payment = ''
-  order.errors = ''
   contacts.email = ''
   contacts.phone = ''
-  contacts.errors = ''
   bayer.clearBuyerData();
   basket.cards = [];
   showModal();
@@ -350,24 +349,5 @@ events.on('contacts:submit', () => {
 events.on('order:complete', () => {
   closeModal();
 })
-
-//#endregion
-
-//#region to do
-
-//     +| "catalog:changed"        +// изменение каталога товаров
-//     +| "selectedCard:changed"   +// клик по карточке товара в галерее
-//     +| "card:select"            // клик по кнопке 'в корзину' в окне превью
-//     +| "basket:open"            +// клик по кнопке 'корзину' в шапке
-//     +| "basket:add"             +// добавление в корзину
-//     +| "basket:remove"          +// удальть товар с корзины
-//     +| "basket:changed"         // изменения в корзине
-//     +| "form:changed"           +// форма изменить
-//     +| "buyer:changed"          +// покупатель изменить
-//     +| "order:start"            +// заказ начало
-//     +| "order:submit"           +// заказ второй
-//     +| "contacts:submit"        +// заказ последний
-//     +| "order:complete"         // заказ завершить
-//     +| "modal:close";           // закрыть модальное окно
 
 //#endregion

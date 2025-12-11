@@ -8,15 +8,15 @@ interface IModal {
 
 export class Modal extends Component<IModal> {
     protected modalContainer: HTMLElement;
-    protected modalButtom: HTMLButtonElement;
+    protected modalButton: HTMLButtonElement;
 
     constructor(protected events: IEvents, container: HTMLElement) {
         super(container);
 
         this.modalContainer = ensureElement<HTMLElement>('.modal__content', this.container);
-        this.modalButtom = ensureElement<HTMLButtonElement>('.modal__close', this.container);
+        this.modalButton = ensureElement<HTMLButtonElement>('.modal__close', this.container);
 
-        this.modalButtom.addEventListener('click', () => {
+        this.modalButton.addEventListener('click', () => {
             this.events.emit('modal:close');
         })
         this.container.addEventListener('click',  (event) => {
@@ -31,11 +31,3 @@ export class Modal extends Component<IModal> {
         this.modalContainer.appendChild(value);
     }
 };
-
-//     public open() {
-//         this.container.style.display = 'block';
-//     }
-
-//     public close() {
-//         this.container.style.display = 'none';
-// }

@@ -2,15 +2,14 @@ import { IProduct } from '../../types/index.ts';
 import { IEvents } from '../base/Events.ts';
 
 export class ProductCatalogModel {
-    productArray: IProduct[];
-    productSelected: IProduct | null;
+    protected productArray: IProduct[];
+    protected productSelected: IProduct | null;
     protected events: IEvents; 
 // Обратите внимание.
 // Во всех классах вы не будете получать в конструктор готовые данные. 
 // Все экземпляры классов создаются до появления данных 
 // и заполняются данными в процессе работы приложения.
     constructor(events: IEvents, productArray: IProduct[] = [], productSelected: IProduct | null = null)
-    // constructor(productArray: IProduct[] = [], productSelected: IProduct | null = null, protected events: IEvents)
     {
         this.events = events;
         this.productArray = productArray;
