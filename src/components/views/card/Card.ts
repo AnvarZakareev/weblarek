@@ -14,6 +14,10 @@ export class Card<T> extends Gallery<ICard & T> {
 
         this.titleElement = ensureElement<HTMLElement>('.card__title', this.container);
         this.priceElement = ensureElement<HTMLElement>('.card__price', this.container);
+
+        // if (this.priceElement.textContent as number == 0) {
+        //     console.log('err')
+        // }
     }
 
     set title(value: string) {

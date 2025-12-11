@@ -1,4 +1,5 @@
 // #region import
+
 import './scss/styles.scss';
 import { apiProducts } from './utils/data'
 import { ProductCatalogModel } from './components/models/ProductCatalog';
@@ -16,9 +17,9 @@ import { Header } from './components/views/Header';
 import { Basket } from './components/views/Basket';
 import { Order } from './components/views/form/Order';
 import { BuyerModel } from './components/models/Buyer';
-import { Forms } from './components/views/form/Forms';
 import { Contacts } from './components/views/form/Contacts';
 import { OrderSuccess } from './components/views/form/OrderSuccess';
+
 // #endregion
 
 // #region const
@@ -30,7 +31,6 @@ const productsModel = new ProductCatalogModel();
 const bayer = new BuyerModel(events);
 
 const basketModel = new BasketModel(undefined, events);
-
 
 const headerTemplate = document.getElementById('header-container') as HTMLTemplateElement;
 
@@ -47,7 +47,6 @@ const basket = new Basket(cloneTemplate(basketTemplate), events);
 const modalTemplate = document.getElementById('modal-container') as HTMLElement;
 
 const modal = new Modal(events, modalTemplate);
-
 
 const catalogTemplate = document.getElementById('card-catalog') as HTMLTemplateElement;
 
@@ -69,7 +68,7 @@ const success = new OrderSuccess(cloneTemplate(successTemplate), events)
 
 //#endregion
 
-// #region start
+// #region pre set
 
 // ----------------------------------- to do -----------------------------------
 // после интеграции с АПИ изменить на, данные с сервера
@@ -79,39 +78,13 @@ productsModel.setItems(apiProducts.items);
 // счетчик корзины
 header.counter = basketModel.getLengthProductInBasket();
 
-const container: HTMLElement = basket.render();
-const buttonContayner = ensureElement<HTMLButtonElement>('.button', container);
-//по умолчанию кнопка 'Оформить' недоступна
-if (basket.sum == 0) {
-  buttonContayner.disabled = true;
-}
-
 // #endregion
 
-  console.log(bayer.getBuyerData())
-// загрузка карточек в галлерею
-events.on('catalog:changed', () => {
-  const itemCards = productsModel.getItems().map((item) => {
-    const card = new CardCatalog(cloneTemplate(catalogTemplate), {
-      onClick: () => events.emit('selectedCard:changed', item),
-    });
-    return card.render(item);
-  });
-  gallery.render({ catalog: itemCards })
-});
-
-// ----------------------------------- to do -----------------------------------
-// после интеграции с АПИ изменить на, реакцию после загрузки данных с сервера
-// вызов загрузки карточек в галлерею
-events.emit('catalog:changed', {})
-
-              // -------------------
-              // Функции помошники
-              // -------------------
+//#region function
 
 // проверка возможности купить
 function canBuy(item: IProduct):boolean  {
-  if (!item.price) {
+  if(!item.price) {
     return true;
   }
   else return false;
@@ -139,11 +112,11 @@ function buttonText(item: IProduct, cardPreview: CardPreview):void {
       buttonContayner.textContent = 'Удалить из корзины';
     } else if (!isInBasket(item)) {
       buttonContayner.textContent = 'Купить';
-  }}
-};
-
-// закрыть модальное окно
-function closeModal() {
+    }}
+  };
+  
+  // закрыть модальное окно
+  function closeModal() {
   modalTemplate.style.display = 'none';
 };
 
@@ -152,10 +125,10 @@ function showModal() {
   modalTemplate.style.display = 'block';
 };
 
-              // -----------------
-              // Реакция на клики
-              // -----------------
+//#endregion
 
+//#region  click
+ 
 // клик по кнопке 'корзина' в шапке
 events.on('basket:open',  () => {
   modal.render({ content: basket.render()});
@@ -195,9 +168,23 @@ events.on('order:start', () => {
   showModal();
 });
 
-              // --------------------
-              // Реакция от моделей
-              // --------------------
+//#endregion
+
+//#region model reaction
+
+// загрузка карточек в галлерею
+events.on('catalog:changed', () => {
+  const itemCards = productsModel.getItems().map((item) => {
+    const card = new CardCatalog(cloneTemplate(catalogTemplate), {
+      onClick: () => events.emit('selectedCard:changed', item),
+    });
+    if(canBuy(item)) {
+      item.price = 0;
+    }
+    return card.render(item);
+  });
+  gallery.render({ catalog: itemCards })
+});
 
 // товар удален из корзины
 events.on('basket:remove', (item: IProduct) => {
@@ -291,48 +278,56 @@ events.on('buyer:changed', () => {
   }
 });
 
+// заказ второй
 events.on('order:submit', () => {
   closeModal();
   modal.render({ content: contacts.render() });
   showModal();
 });
 
+// заказ последний
 events.on('contacts:submit', () => {
   closeModal();
   success.message = basketModel.getTotalPrice();
   modal.render({ content: success.render() });
+  basketModel.clearBasket();
+  bayer.clearBuyerData();
+  basket.cards = [];
   showModal();
 });
 
+// заказ завершить
 events.on('order:complete', () => {
-  basketModel.clearBasket();
+  closeModal();
 })
 
-events.on('basket:clear', () => {
-  closeModal();
-  basket.sum = 0;
-  bayer.clearBuyerData();
-})
+//#endregion
+
+//#region to do
 
 // ----------------------------------- to do -----------------------------------
+// после интеграции с АПИ изменить на, реакцию после загрузки данных с сервера
+// вызов загрузки карточек в галлерею
+events.emit('catalog:changed', {})
+// ----------------------------------- to do -----------------------------------
 // для теста форм удалить до релиза
-events.emit('order:start')
+// events.emit('order:start')
 // events.emit('order:next')
 
 
-//     +| "catalog:changed"        // вызов загрузки карточек в галлерею
-//     +| "selectedCard:changed"   // клик по карточке товара в галерее
+//     +| "catalog:changed"        +// изменение каталога товаров
+//     +| "selectedCard:changed"   +// клик по карточке товара в галерее
 //     +| "card:select"            // клик по кнопке 'в корзину' в окне превью
-//     +| "basket:open"            // клик по кнопке 'корзину' в шапке
-//     +| "basket:add"             // добавление в корзину
-//     +| "basket:remove"          // удальть товар с корзины
+//     +| "basket:open"            +// клик по кнопке 'корзину' в шапке
+//     +| "basket:add"             +// добавление в корзину
+//     +| "basket:remove"          +// удальть товар с корзины
 //     +| "basket:changed"         // изменения в корзине
-//     +| "basket:clear"           // корзина отчистить
-//     +| "form:changed"           // форма изменить
-//     +| "buyer:changed"          // покупатель изменить
-//     +| "order:start"            // заказ начало
-//     +| "order:submit"           // заказ второй
-//     +| "contacts:submit"        // заказ последний
+//     +| "form:changed"           +// форма изменить
+//     +| "buyer:changed"          +// покупатель изменить
+//     +| "order:start"            +// заказ начало
+//     +| "order:submit"           +// заказ второй
+//     +| "contacts:submit"        +// заказ последний
 //     +| "order:complete"         // заказ завершить
-//     | "modalState:changed"     // 
 //     +| "modal:close";           // закрыть модальное окно
+
+//#endregion

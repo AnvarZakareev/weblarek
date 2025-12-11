@@ -29,7 +29,7 @@ export class BasketModel {
 
     clearBasket() {
         this.productArrayInBasket = [];
-        this.events.emit('basket:clear');
+        this.events.emit('basket:changed');
     }
 
     getTotalPrice(): number {

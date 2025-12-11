@@ -25,11 +25,11 @@ export class Contacts extends Forms<TContacts> {
     }
     
     set email(value: string) {
-        this.emailBuyer.textContent = value;
+        this.emailBuyer.value = value;
     }
 
     set phone(value: string) {
-        this.phoneBuyer.textContent = value;
+        this.phoneBuyer.value = value;
     }
 
 }

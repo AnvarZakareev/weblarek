@@ -22,10 +22,12 @@ export class Basket extends Component<IBasket> {
         this.designButtom.addEventListener('click', () => {
             this.events.emit('order:start');
         })
+
+        this.designButtom.disabled = true;
     }
 
     set sum(value: number) {
-        this.basketPrice.textContent = String(value);
+        this.basketPrice.textContent = `${value} синапсов`;
     }
 
     set cards(value: HTMLElement[]) {
