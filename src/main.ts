@@ -17,7 +17,7 @@ import { Basket } from './components/views/Basket';
 import { Order } from './components/views/form/Order';
 import { BuyerModel } from './components/models/Buyer';
 import { Contacts } from './components/views/form/Contacts';
-import { OrderSuccess } from './components/views/form/OrderSuccess';
+import { OrderSuccess } from './components/views/OrderSuccess';
 import { Api } from './components/base/Api';
 import { CompositionAPI } from './components/base/CompositionApi';
 import { API_URL } from '../src/utils/constants'
