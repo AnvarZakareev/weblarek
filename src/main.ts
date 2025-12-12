@@ -129,7 +129,7 @@ function isInBasket(item: IProduct):boolean {
 
 // изменение состояния кнопки в окне просмотра информации о товаре
 // 'Недоступно', 'Купить', 'Удалить из корзины'
-function buttonText(item: IProduct, cardPreview: CardPreview):void {
+function setButtonText(item: IProduct, cardPreview: CardPreview):void {
 // function buttonText(item: IProduct, cardPreview: CardPreview):void {
   // const container: HTMLElement = cardPreview.render();
   // const buttonContayner = ensureElement<HTMLButtonElement>('.button', container);
@@ -161,7 +161,7 @@ events.on('selectedCard:changed', (item: IProduct) => {
   const cardPreview = new CardPreview(cloneTemplate(previewTemplate),  {
     onClick: () => events.emit('card:select', item),
   });
-  buttonText(item, cardPreview);
+  setButtonText(item, cardPreview);
   modal.render({ content: cardPreview.render(item) });
   modal.showModal();
   // showModal();
