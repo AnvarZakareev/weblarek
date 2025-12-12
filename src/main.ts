@@ -119,20 +119,9 @@ function canBuy(item: IProduct):boolean  {
   else return true;
 };
 
-// проверка на наличие товара в корзине
-// function isInBasket(item: IProduct):boolean {
-//   if (basketModel.checkProductInBasketById(item.id)) {
-//     return true;
-//   }
-//   else return false;
-// };
-
 // изменение состояния кнопки в окне просмотра информации о товаре
 // 'Недоступно', 'Купить', 'Удалить из корзины'
 function setButtonText(item: IProduct, cardPreview: CardPreview):void {
-// function buttonText(item: IProduct, cardPreview: CardPreview):void {
-  // const container: HTMLElement = cardPreview.render();
-  // const buttonContayner = ensureElement<HTMLButtonElement>('.button', container);
   if (canBuy(item)) {
     cardPreview.buttonText = 'Недоступно';
     cardPreview.buttonDisabled = true;
@@ -153,7 +142,6 @@ function setButtonText(item: IProduct, cardPreview: CardPreview):void {
 events.on('basket:open',  () => {
   modal.render({ content: basket.render()});
   modal.showModal();
-  // showModal();
 });
 
 // клик по карточке товара в галерее
@@ -164,13 +152,11 @@ events.on('selectedCard:changed', (item: IProduct) => {
   setButtonText(item, cardPreview);
   modal.render({ content: cardPreview.render(item) });
   modal.showModal();
-  // showModal();
 });
 
 // клик по кнопке 'крестику' в модальном окне и вне окна
 events.on('modal:close',  () => {
   modal.closeModal();
-  // closeModal();
 });
 
 // клик по кнопке 'Купить' в окне превью
@@ -178,21 +164,17 @@ events.on('card:select', (item: IProduct) => {
   if (!basketModel.checkProductInBasketById(item.id)) {
     basketModel.addProductInBasket(item);
     modal.closeModal();
-    // closeModal();
   } else {
     basketModel.delProductInBasket(item);
     modal.closeModal();
-    // closeModal();
   }
 });
 
 //клик по кнопке оформить в корзине
 events.on('order:start', () => {
   modal.closeModal();
-  // closeModal();
   modal.render({ content: order.render() });
   modal.showModal();
-  // showModal();
 });
 
 //#endregion
@@ -302,10 +284,8 @@ events.on('buyer:changed', () => {
 // заказ второй
 events.on('order:submit', () => {
   modal.closeModal();
-  // closeModal();
   modal.render({ content: contacts.render() });
   modal.showModal();
-  // showModal();
 });
 
 // заказ последний
@@ -325,7 +305,6 @@ events.on('contacts:submit', async () => {
   try {
     orderApi(basketData)
     modal.closeModal();
-    // closeModal();
     // сброс всех данных
     success.message = basketModel.getTotalPrice();
     modal.render({ content: success.render() });
@@ -337,7 +316,6 @@ events.on('contacts:submit', async () => {
     bayer.clearBuyerData();
     basket.cards = [];
     modal.showModal();
-    // showModal();
   }
   catch (error) {
     console.error('Ошибка:', error);
@@ -347,7 +325,6 @@ events.on('contacts:submit', async () => {
 // заказ завершить
 events.on('order:complete', () => {
   modal.closeModal();
-  // closeModal();
 })
 
 //#endregion
