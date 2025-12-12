@@ -20,6 +20,12 @@ export class Card<T> extends Component<ICard & T> {
     }
     
     set price(value: number) {
-        this.priceElement.textContent = String(value);
+        if (value > 0) {
+            this.priceElement.textContent = `${String(value)} синапсов`;
+        }
+        else {
+            this.priceElement.textContent = `Бесценно`;
+        }
+
     }
 }

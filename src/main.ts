@@ -184,7 +184,7 @@ events.on('card:select', (item: IProduct) => {
   if (!isInBasket(item)) {
     basketModel.addProductInBasket(item);
     closeModal();
-  } else if (isInBasket(item)) {
+  } else {
     basketModel.delProductInBasket(item);
     closeModal();
   }
@@ -238,17 +238,8 @@ events.on('basket:changed', () => {
     
     return card.render(cardItem);
   });
-  const container: HTMLElement = basket.render();
-  const buttonContayner = ensureElement<HTMLButtonElement>('.button', container);
 
-  if (totalPrice == 0) {
-    buttonContayner.disabled = true;
-  }
-  else if (totalPrice > 0) {
-    buttonContayner.disabled = false;
-  }
   basket.render({ cards: list, sum: totalPrice });
-
 });
 
 // форма изменена
@@ -318,7 +309,7 @@ events.on('order:submit', () => {
 });
 
 // заказ последний
-events.on('contacts:submit', () => {
+events.on('contacts:submit', async () => {
   const idArray: string[] = basketModel.getProductArrayInBasket().map(item => item.id)
   const totalPrice = basketModel.getTotalPrice();
 
@@ -330,20 +321,25 @@ events.on('contacts:submit', () => {
     phone: bayer.getBuyerData()?.phone as TPayment,
     address: bayer.getBuyerData()?.address as TPayment
   };
-  
-  orderApi(basketData)
-  closeModal();
-  // сброс всех данных
-  success.message = basketModel.getTotalPrice();
-  modal.render({ content: success.render() });
-  basketModel.clearBasket();
-  order.address = ''
-  order.payment = ''
-  contacts.email = ''
-  contacts.phone = ''
-  bayer.clearBuyerData();
-  basket.cards = [];
-  showModal();
+
+  try {
+    orderApi(basketData)
+    closeModal();
+    // сброс всех данных
+    success.message = basketModel.getTotalPrice();
+    modal.render({ content: success.render() });
+    basketModel.clearBasket();
+    order.address = ''
+    order.payment = ''
+    contacts.email = ''
+    contacts.phone = ''
+    bayer.clearBuyerData();
+    basket.cards = [];
+    showModal();
+  }
+  catch (error) {
+    console.error('Ошибка:', error);
+  }
 });
 
 // заказ завершить

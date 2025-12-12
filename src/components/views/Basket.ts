@@ -25,9 +25,15 @@ export class Basket extends Component<IBasket> {
 
         this.designButtom.disabled = true;
     }
-
+    
     set sum(value: number) {
         this.basketPrice.textContent = `${value} синапсов`;
+        if (value > 0) {
+          this.designButtom.disabled = false;
+        }
+        else {
+          this.designButtom.disabled = true;
+        }
     }
 
     set cards(value: HTMLElement[]) {
