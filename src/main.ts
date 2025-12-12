@@ -88,7 +88,7 @@ async function main() {
   }
 }
 
-main();
+// main();
 
 async function orderApi(basketData: IBuyerExtended) {
   const apiInstance = new Api(API_URL);
@@ -143,16 +143,6 @@ function buttonText(item: IProduct, cardPreview: CardPreview):void {
       buttonContayner.textContent = 'Купить';
     }}
   };
-  
-// закрыть модальное окно
-function closeModal() {
-  modalTemplate.style.display = 'none';
-};
-
-// показать модальное окно
-function showModal() {
-  modalTemplate.style.display = 'block';
-};
 
 //#endregion
 
@@ -161,7 +151,8 @@ function showModal() {
 // клик по кнопке 'корзина' в шапке
 events.on('basket:open',  () => {
   modal.render({ content: basket.render()});
-  showModal();
+  modal.showModal();
+  // showModal();
 });
 
 // клик по карточке товара в галерее
@@ -171,30 +162,36 @@ events.on('selectedCard:changed', (item: IProduct) => {
   });
   buttonText(item, cardPreview);
   modal.render({ content: cardPreview.render(item) });
-  showModal();
+  modal.showModal();
+  // showModal();
 });
 
 // клик по кнопке 'крестику' в модальном окне и вне окна
 events.on('modal:close',  () => {
-  closeModal();
+  modal.closeModal();
+  // closeModal();
 });
 
 // клик по кнопке 'Купить' в окне превью
 events.on('card:select', (item: IProduct) => {
   if (!isInBasket(item)) {
     basketModel.addProductInBasket(item);
-    closeModal();
+    modal.closeModal();
+    // closeModal();
   } else {
     basketModel.delProductInBasket(item);
-    closeModal();
+    modal.closeModal();
+    // closeModal();
   }
 });
 
 //клик по кнопке оформить в корзине
 events.on('order:start', () => {
-  closeModal();
+  modal.closeModal();
+  // closeModal();
   modal.render({ content: order.render() });
-  showModal();
+  modal.showModal();
+  // showModal();
 });
 
 //#endregion
@@ -303,9 +300,11 @@ events.on('buyer:changed', () => {
 
 // заказ второй
 events.on('order:submit', () => {
-  closeModal();
+  modal.closeModal();
+  // closeModal();
   modal.render({ content: contacts.render() });
-  showModal();
+  modal.showModal();
+  // showModal();
 });
 
 // заказ последний
@@ -324,7 +323,8 @@ events.on('contacts:submit', async () => {
 
   try {
     orderApi(basketData)
-    closeModal();
+    modal.closeModal();
+    // closeModal();
     // сброс всех данных
     success.message = basketModel.getTotalPrice();
     modal.render({ content: success.render() });
@@ -335,7 +335,8 @@ events.on('contacts:submit', async () => {
     contacts.phone = ''
     bayer.clearBuyerData();
     basket.cards = [];
-    showModal();
+    modal.showModal();
+    // showModal();
   }
   catch (error) {
     console.error('Ошибка:', error);
@@ -344,7 +345,8 @@ events.on('contacts:submit', async () => {
 
 // заказ завершить
 events.on('order:complete', () => {
-  closeModal();
+  modal.closeModal();
+  // closeModal();
 })
 
 //#endregion
