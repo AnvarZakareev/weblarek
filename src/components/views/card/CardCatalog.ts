@@ -2,7 +2,7 @@ import { IProduct } from "../../../types";
 import { categoryMap } from "../../../utils/constants";
 import { ensureElement } from "../../../utils/utils";
 import { Card } from "./Card";
-import { CDN_URL_WORKS } from "../../../utils/constants";
+import { CDN_URL } from "../../../utils/constants";
 
 type ICardActions = {
   onClick?: (event: Event) => void;
@@ -37,7 +37,7 @@ export class CardCatalog extends Card<TCardCatalog> {
     }
 
     set image(value: string) {
-        this.imageElement.src = CDN_URL_WORKS+value;
+        this.imageElement.src = CDN_URL+value;
         this.imageElement.alt = 'Изображение товара';
     }
 }

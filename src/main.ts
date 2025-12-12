@@ -20,7 +20,7 @@ import { Contacts } from './components/views/form/Contacts';
 import { OrderSuccess } from './components/views/form/OrderSuccess';
 import { Api } from './components/base/Api';
 import { CompositionAPI } from './components/base/CompositionApi';
-import { API_URL_WORKS } from '../src/utils/constants'
+import { API_URL } from '../src/utils/constants'
 import { IBuyerExtended } from './types/index';
 // #endregion
 
@@ -73,7 +73,8 @@ const success = new OrderSuccess(cloneTemplate(successTemplate), events)
 // #region async
 
 async function main() {
-  const apiInstance = new Api(API_URL_WORKS);
+  const apiInstance = new Api(API_URL);
+  console.log(API_URL)
   
   const catalog = new CompositionAPI(apiInstance);
   
@@ -90,7 +91,7 @@ async function main() {
 main();
 
 async function orderApi(basketData: IBuyerExtended) {
-  const apiInstance = new Api(API_URL_WORKS);
+  const apiInstance = new Api(API_URL);
   
   const basket = new CompositionAPI(apiInstance);
   
