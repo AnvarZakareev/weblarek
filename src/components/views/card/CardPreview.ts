@@ -42,4 +42,11 @@ export class CardPreview extends Card<TCardPreview> {
         this.descriptionElement.textContent = String(value);
     }
 
+    set buttonText(value: string) {
+        this.addElementButton.textContent = value;
+    }
+
+    set buttonDisabled(value: boolean) {
+        this.addElementButton.disabled = value;
+    }
 }

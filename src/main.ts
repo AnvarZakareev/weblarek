@@ -88,7 +88,7 @@ async function main() {
   }
 }
 
-// main();
+main();
 
 async function orderApi(basketData: IBuyerExtended) {
   const apiInstance = new Api(API_URL);
@@ -130,17 +130,18 @@ function isInBasket(item: IProduct):boolean {
 // изменение состояния кнопки в окне просмотра информации о товаре
 // 'Недоступно', 'Купить', 'Удалить из корзины'
 function buttonText(item: IProduct, cardPreview: CardPreview):void {
-  const container: HTMLElement = cardPreview.render();
-  const buttonContayner = ensureElement<HTMLButtonElement>('.button', container);
+// function buttonText(item: IProduct, cardPreview: CardPreview):void {
+  // const container: HTMLElement = cardPreview.render();
+  // const buttonContayner = ensureElement<HTMLButtonElement>('.button', container);
   if (canBuy(item)) {
-    buttonContayner.textContent = 'Недоступно';
-    buttonContayner.disabled = true;
+    cardPreview.buttonText = 'Недоступно';
+    cardPreview.buttonDisabled = true;
   }
   else {
     if (isInBasket(item)) {
-      buttonContayner.textContent = 'Удалить из корзины';
+      cardPreview.buttonText = 'Удалить из корзины';
     } else if (!isInBasket(item)) {
-      buttonContayner.textContent = 'Купить';
+      cardPreview.buttonText = 'Купить';
     }}
   };
 
