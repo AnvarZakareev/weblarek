@@ -74,7 +74,7 @@ const success = new OrderSuccess(cloneTemplate(successTemplate), events)
 
 async function main() {
   const apiInstance = new Api(API_URL);
-  console.log(API_URL)
+  // console.log(API_URL)
   
   const catalog = new CompositionAPI(apiInstance);
   
@@ -95,13 +95,13 @@ async function orderApi(basketData: IBuyerExtended) {
   
   const basket = new CompositionAPI(apiInstance);
   
-  try {
+  // try {
     const bayer = await basket.sendOrder(basketData);
     console.log('Покупка успешна:', bayer)
-  } 
-  catch (error) {
-    console.error('Ошибка при оформлении:', error);
-  }
+  // } 
+  // catch (error) { //чтобы при ошибке заказа не показать, что ошибка, вам здесь не нужен catch. Пусть здесь уходит ошибка, а на 320 вы ее поймаете
+  //   console.error('Ошибка при оформлении:', error);
+  // }
 }
 
 // счетчик корзины
@@ -303,7 +303,7 @@ events.on('contacts:submit', async () => {
   };
 
   try {
-    orderApi(basketData)
+    await orderApi(basketData)
     modal.closeModal();
     // сброс всех данных
     success.message = basketModel.getTotalPrice();
